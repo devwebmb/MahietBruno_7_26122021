@@ -29,5 +29,9 @@ sequelize.initDb();
 
 require("./routes/signup")(app);
 require("./routes/login")(app);
+require("./routes/getAllPosts")(app);
+require("./routes/getOnePost")(app);
+require("./routes/addPost")(app);
+require("./routes/addComment")(app);
 
 module.exports = app;

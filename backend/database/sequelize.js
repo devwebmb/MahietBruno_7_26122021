@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const UserModel = require("../models/User");
 const PostModel = require("../models/Post");
+const CommentModel = require("../models/Comment");
 require("dotenv").config();
 
 const dataBase = new Sequelize(
@@ -26,6 +27,7 @@ dataBase
 
 const Post = PostModel(dataBase, DataTypes);
 const User = UserModel(dataBase, DataTypes);
+const Comment = CommentModel(dataBase, DataTypes);
 
 const initDb = () => {
   return dataBase.sync({ force: true }).then(() => {
@@ -39,4 +41,4 @@ const initDb = () => {
   });
 };
 
-module.exports = { initDb, User, Post };
+module.exports = { initDb, User, Post, Comment };

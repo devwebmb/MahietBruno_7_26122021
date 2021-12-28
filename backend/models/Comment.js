@@ -1,10 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("Post", {
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    post: {
+  return sequelize.define("Comment", {
+    comment: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -12,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userId: {
+    postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
