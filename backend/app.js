@@ -33,5 +33,7 @@ require("./routes/getAllPosts")(app);
 require("./routes/getOnePost")(app);
 require("./routes/addPost")(app);
 require("./routes/addComment")(app);
+require("./routes/deletePost")(app);
+require("./routes/updatePost")(app);
 
 module.exports = app;
