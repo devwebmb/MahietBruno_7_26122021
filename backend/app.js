@@ -1,6 +1,9 @@
 const express = require("express");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
+const userRoutes = require("./routes/user");
+const postsRoutes = require("./routes/post");
+const commentsRoutes = require("./routes/comment.js");
 const app = express();
 const sequelize = require("./database/sequelize");
 
@@ -25,15 +28,8 @@ app.use(bodyParser.json());
 
 sequelize.initDb();
 
-//ici nous placerons les points de terminaison
-
-require("./routes/signup")(app);
-require("./routes/login")(app);
-require("./routes/getAllPosts")(app);
-require("./routes/getOnePost")(app);
-require("./routes/addPost")(app);
-require("./routes/addComment")(app);
-require("./routes/deletePost")(app);
-require("./routes/updatePost")(app);
+app.use("/api/auth", userRoutes);
+app.use("/api", postsRoutes);
+app.use("/api", commentsRoutes);
 
 module.exports = app;
