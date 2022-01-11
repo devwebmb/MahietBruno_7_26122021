@@ -1,9 +1,8 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/api/auth/signup">S'inscrire</router-link>
+  <div class="nav">
+    <router-link to="/api/auth/signup">S'inscrire</router-link> |
+    <router-link to="/api/auth/login">Se connecter</router-link>
   </div>
-  <router-view />
 </template>
 
 <script>

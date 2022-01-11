@@ -1,7 +1,18 @@
-<template><router-link to="/">Home</router-link><br /></template>
+<template>
+  <div>
+    <SignupForm />
+  </div>
+</template>
 
 <script>
-export default {};
+import SignupForm from "@/components/SignupForm.vue";
+
+export default {
+  name: "Signup",
+  components: {
+    SignupForm,
+  },
+};
 </script>
 
 <style></style>

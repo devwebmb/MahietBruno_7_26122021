@@ -21,6 +21,11 @@ const routes = [
     name: "Signup",
     component: () => import("../views/Signup.vue"),
   },
+  {
+    path: "/api/auth/login",
+    name: "Login",
+    component: () => import("../views/Login.vue"),
+  },
 ];
 
 const router = createRouter({
