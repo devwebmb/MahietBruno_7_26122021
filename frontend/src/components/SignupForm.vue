@@ -54,7 +54,7 @@ export default {
     signup() {
       axios
         .post(
-          "http://localhost:3000/api/auth/signup",
+          "http://localhost:3000/api/user/signup",
           {
             email: this.email,
             pseudo: this.pseudo,

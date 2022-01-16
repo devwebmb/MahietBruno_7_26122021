@@ -4,7 +4,9 @@ const { ValidationError } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const privateKey = require("../auth/private_keys");
 
+// inscription
 exports.signup = (req, res, next) => {
+  console.log(req.body);
   bcrypt.hash(req.body.password, 10).then((hash) => {
     User.create({
       email: req.body.email,
@@ -13,7 +15,7 @@ exports.signup = (req, res, next) => {
     })
       .then((user) => {
         const message = `L'utilisateur ${req.body.pseudo} a bien été créé.`;
-        res.json({ message, data: user });
+        res.status(201).json({ message, data: user });
       })
       .catch((error) => {
         if (error instanceof ValidationError) {
@@ -26,6 +28,7 @@ exports.signup = (req, res, next) => {
   });
 };
 
+//connexion
 exports.login = (req, res, next) => {
   User.findOne({
     where: {
@@ -52,4 +55,68 @@ exports.login = (req, res, next) => {
         "L'utilisateur n'a pas pu être connecté, réessayez dans un instant.";
       return res.json({ message, data: error });
     });
+};
+
+// CRUD USER
+//Récupérer tous les users
+exports.getAllUsers = (req, res, next) => {
+  User.findAll({ attributes: { exclude: ["password"] } }).then((users) => {
+    res.status(200).json(users);
+  });
+};
+
+//Récupérer un seul utilisateur
+exports.getOneUser = (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+    attributes: { exclude: ["password"] },
+  }).then((user) => {
+    if (!user) {
+      return res.status(400).json({ err: "id inconnu" });
+    }
+    res.status(200).json(user);
+  });
+};
+
+// update user
+exports.updateUser = (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then((user) => {
+    if (!user) {
+      return res.status(400).json({ err: "id inconnu" });
+    }
+    bcrypt.hash(req.body.password, 10).then((hash) => {
+      user
+        .update({
+          pseudo: req.body.pseudo,
+          email: req.body.email,
+          password: hash,
+        })
+        .then((user) => {
+          res.status(201).json(user);
+        });
+    });
+  });
+};
+
+//delete user
+exports.deleteUser = (req, res, next) => {
+  User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then((user) => {
+    if (!user) {
+      return res.status(400).json({ err: "id inconnu" });
+    }
+    user.destroy().then(() => {
+      const message = "L'utilisateur a été supprimé.";
+      res.status(200).json({ message });
+    });
+  });
 };

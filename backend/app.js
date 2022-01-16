@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 sequelize.initDb();
 
-app.use("/api/auth", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api", postsRoutes);
 app.use("/api", commentsRoutes);
 
