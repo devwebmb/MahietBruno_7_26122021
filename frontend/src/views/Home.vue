@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <Accueil />
+    <Header />
   </div>
 </template>
 
 <script>
-import Accueil from "@/components/Accueil.vue";
+import Header from "../components/Header.vue";
 
 export default {
   name: "Home",
   components: {
-    Accueil,
+    Header,
   },
 };
 </script>

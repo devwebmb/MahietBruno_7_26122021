@@ -10,7 +10,6 @@ exports.signup = (req, res, next) => {
       email: req.body.email,
       pseudo: req.body.pseudo,
       password: hash,
-      isAdmin: req.body.isAdmin,
     })
       .then((user) => {
         const message = `L'utilisateur ${req.body.pseudo} a bien été créé.`;

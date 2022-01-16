@@ -35,7 +35,6 @@ const initDb = () => {
       email: "gege@gmail.com",
       pseudo: "gege",
       password: "gege",
-      isAdmin: true,
     }).then((user) => console.log(user.toJSON()));
     console.log("la base de données est initialisée.");
   });

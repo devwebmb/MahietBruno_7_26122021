@@ -52,9 +52,6 @@ export default {
   },
   methods: {
     signup() {
-      console.log(this.email);
-      console.log(this.pseudo);
-      console.log(this.password);
       axios
         .post(
           "http://localhost:3000/api/auth/signup",
@@ -70,7 +67,7 @@ export default {
           }
         )
         .then(() => {
-          alert("utilisateur créé");
+          this.$router.replace("/");
         });
     },
   },
