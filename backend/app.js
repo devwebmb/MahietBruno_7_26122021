@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 sequelize.initDb();
 
 app.use("/api/user", userRoutes);
-app.use("/api", postsRoutes);
-app.use("/api", commentsRoutes);
+app.use("/api/post", postsRoutes);
+app.use("/api/comment", commentsRoutes);
 
 module.exports = app;

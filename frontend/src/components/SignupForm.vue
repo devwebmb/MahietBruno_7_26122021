@@ -1,48 +1,22 @@
 <template>
-  <div>
-    <div class="nav">
-      <router-link to="/">Accueil</router-link>
-    </div>
-    <div>
-      <form @submit.prevent="signup()">
-        <div class="mb-3">
-          <label for="" class="form-label">Email : </label>
-          <input
-            v-model="email"
-            type="email"
-            class="form-control"
-            id="email_signup"
-            aria-describedby="emailHelp"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="" class="form-label">Pseudo : </label>
-          <input
-            v-model="pseudo"
-            type="text"
-            class="form-control"
-            id="pseudo_signup"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="" class="form-label">Password</label>
-          <input
-            v-model="password"
-            type="password"
-            class="form-control"
-            id="password_signup"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
-      </form>
-    </div>
+  <div class="form-container">
+    <form class="connect-form" @submit.prevent="signup()">
+      <h3>Inscription</h3>
+      <label>Email :</label>
+      <input type="email" v-model="email" /><br />
+      <label>Pseudo :</label>
+      <input type="text" v-model="pseudo" /><br />
+      <label>Mot de passe :</label>
+      <input type="password" v-model="password" />
+      <input type="submit" value="S'inscrire" class="submit-button" />
+    </form>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  name: "SignupForm",
+  name: "Signup",
   data() {
     return {
       email: "",
@@ -67,16 +41,38 @@ export default {
           }
         )
         .then(() => {
-          this.$router.replace("/");
+          alert("ok");
         });
     },
   },
 };
 </script>
 
-<style scoped>
-form {
-  width: 300px;
-  margin: auto;
+<style>
+.connect-form {
+  border: solid 2px #fc785d;
+  border-top: none;
+  border-radius: 0 0 25px 25px;
+}
+h3 {
+  color: black;
+  padding-top: 6px;
+}
+label {
+  font-weight: bold;
+  color: black;
+  width: 30%;
+}
+input {
+  width: 60%;
+  margin: 10px;
+}
+.submit-button {
+  background-color: #fc785d;
+  border: none;
+  border-radius: 25px;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
 }
 </style>

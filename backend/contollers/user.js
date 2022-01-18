@@ -104,7 +104,7 @@ exports.updateUser = (req, res, next) => {
   });
 };
 
-//delete user
+//Delete user
 exports.deleteUser = (req, res, next) => {
   User.findOne({
     where: {

@@ -1,12 +1,13 @@
 const express = require("express");
+const auth = require("../auth/auth");
 const router = express.Router();
 
 const postCtrl = require("../contollers/post");
 
-router.post("/posts", postCtrl.addPost);
-router.get("/posts", postCtrl.getAllPosts);
-router.get("/posts/:id", postCtrl.getOnePost);
-router.delete("/posts/:id", postCtrl.deletePost);
-router.put("/posts", postCtrl.updatePost);
+router.get("/", auth, postCtrl.getAllPosts);
+router.get("/:id", auth, postCtrl.getOnePost);
+router.post("/", auth, postCtrl.addPost);
+router.put("/:id", auth, postCtrl.updatePost);
+router.delete("/:id", auth, postCtrl.deletePost);
 
 module.exports = router;

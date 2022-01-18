@@ -16,6 +16,7 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.5.5",
+    "multer": "^2.0.0-rc.1",
     "sequelize": "^7.0.0-alpha.2"
   }
 }
