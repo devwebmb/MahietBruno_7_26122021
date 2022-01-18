@@ -1,8 +1,8 @@
 <template>
   <div class="form-container">
     <ul>
-      <li><a href="" class="active">S'inscrire</a></li>
-      <li><a href="" class="active">Se connecter</a></li>
+      <li><a href="">S'inscrire</a></li>
+      <li><a href="">Se connecter</a></li>
     </ul>
   </div>
 </template>
