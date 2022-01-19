@@ -1,10 +1,14 @@
 <template>
-  <div>hello de post.view</div>
+  <div><Header /></div>
 </template>
 
 <script>
+import Header from "../components/Header.vue";
 export default {
   name: "Post",
+  components: {
+    Header,
+  },
 };
 </script>
 

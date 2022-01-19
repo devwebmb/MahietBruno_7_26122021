@@ -75,4 +75,8 @@ input {
   font-weight: bold;
   padding: 5px;
 }
+.submit-button:hover {
+  background-color: #fd2d01;
+  transition: 1s;
+}
 </style>

@@ -4,10 +4,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    // récupérer author avec le commenterId
+    // author: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
     postId: {
       type: DataTypes.INTEGER,
       allowNull: false,
