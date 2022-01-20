@@ -38,8 +38,8 @@ export default {
             },
           }
         )
-        .then((data) => {
-          localStorage.setItem("token", data.data.token);
+        .then((user) => {
+          localStorage.setItem("user", JSON.stringify(user.data));
           this.$router.replace("/post");
         });
     },

@@ -1,15 +1,18 @@
 <template>
-  <div><Header /> <GetAllPosts /></div>
+  <div>
+    <Header />
+    <GetOnePost />
+  </div>
 </template>
 
 <script>
 import Header from "../components/Header.vue";
-import GetAllPosts from "../components/GetAllPosts.vue";
+import GetOnePost from "../components/GetOnePost";
 export default {
-  name: "Post",
+  name: "OnePost",
   components: {
+    GetOnePost,
     Header,
-    GetAllPosts,
   },
 };
 </script>

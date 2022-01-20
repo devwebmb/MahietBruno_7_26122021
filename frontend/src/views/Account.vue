@@ -1,15 +1,15 @@
 <template>
-  <div><Header /> <GetAllPosts /></div>
+  <div><Header /><Profile-view /></div>
 </template>
 
 <script>
 import Header from "../components/Header.vue";
-import GetAllPosts from "../components/GetAllPosts.vue";
+import ProfileView from "../components/ProfileView.vue";
 export default {
-  name: "Post",
+  name: "Account",
   components: {
     Header,
-    GetAllPosts,
+    ProfileView,
   },
 };
 </script>

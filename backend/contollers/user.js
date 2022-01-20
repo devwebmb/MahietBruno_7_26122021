@@ -28,7 +28,7 @@ exports.signup = (req, res, next) => {
   });
 };
 
-//connexion
+// connexion
 exports.login = (req, res, next) => {
   User.findOne({
     where: {

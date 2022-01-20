@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "Post",
+  name: "AccountView",
 };
 </script>
 

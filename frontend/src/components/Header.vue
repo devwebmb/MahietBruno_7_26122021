@@ -2,8 +2,14 @@
   <div>
     <nav class="navbar">
       <ul>
-        <li><a href="">Tous les articles</a></li>
-        <li><a href="">Mon compte</a></li>
+        <li>
+          <router-link :to="{ name: 'Post' }">
+            <a>Tous les articles</a>
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'Account' }"><a>Mon compte</a></router-link>
+        </li>
         <li><a href="" @click="deconnect()">Se déconnecter</a></li>
       </ul>
     </nav>
@@ -15,7 +21,7 @@ export default {
   name: "Header",
   methods: {
     deconnect() {
-      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       this.$router.replace("/");
     },
   },
@@ -44,7 +50,7 @@ a {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  padding: 6px 12px;
+  padding: 6px;
   border-radius: 25px;
 }
 a:hover {

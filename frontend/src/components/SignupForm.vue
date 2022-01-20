@@ -41,7 +41,24 @@ export default {
           }
         )
         .then(() => {
-          alert("ok");
+          alert("Votre inscription est validé.");
+          axios
+            .post(
+              "http://localhost:3000/api/user/login",
+              {
+                email: this.email,
+                password: this.password,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            )
+            .then((user) => {
+              localStorage.setItem("user", JSON.stringify(user.data));
+              this.$router.replace("/post");
+            });
         });
     },
   },

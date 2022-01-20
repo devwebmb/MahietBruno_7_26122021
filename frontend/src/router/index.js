@@ -12,6 +12,16 @@ const routes = [
     name: "Post",
     component: () => import("../views/Post.vue"),
   },
+  {
+    path: "/post/:id",
+    name: "OnePost",
+    component: () => import("../views/OnePost.vue"),
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: () => import("../views/Account.vue"),
+  },
 ];
 
 const router = createRouter({
