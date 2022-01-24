@@ -1,5 +1,8 @@
 <template>
   <div>
+    <router-link :to="{ name: 'AddPost' }">
+      <button>Nouveau message</button>
+    </router-link>
     <article v-for="(post, index) in posts" :key="index" class="post-article">
       <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
         <div class="header">

@@ -7,6 +7,7 @@
     <button class="delete-profile" @click="deleteUser()">
       Supprimer le compte
     </button>
+    <h2>Mes messages</h2>
   </div>
 </template>
 
@@ -17,7 +18,7 @@ export default {
     deleteUser() {
       const userId = this.$user.data.id;
       this.axios
-        .delete("http://localhost:3000/api/user/delete/" + `${userId}`, {
+        .delete("http://localhost:3000/api/user/" + `${userId}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${this.$token}`,

@@ -4,7 +4,7 @@
       <ul>
         <li>
           <router-link :to="{ name: 'Post' }">
-            <a>Tous les articles</a>
+            <a>Tous les messages</a>
           </router-link>
         </li>
         <li>

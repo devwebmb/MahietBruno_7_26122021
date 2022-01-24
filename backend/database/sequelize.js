@@ -31,11 +31,6 @@ const Comment = CommentModel(dataBase, DataTypes);
 
 const initDb = () => {
   return dataBase.sync({ force: true }).then(() => {
-    User.create({
-      email: "gege@gmail.com",
-      pseudo: "gege",
-      password: "gege",
-    }).then((user) => console.log(user.toJSON()));
     console.log("la base de données est initialisée.");
   });
 };
