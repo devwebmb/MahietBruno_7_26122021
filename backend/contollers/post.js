@@ -26,7 +26,7 @@ exports.addPost = (req, res, next) => {
 
 //Modifier un post
 exports.updatePost = (req, res, next) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   Post.update(req.body, {
     where: {
       id: id,
