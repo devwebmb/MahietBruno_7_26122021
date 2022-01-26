@@ -41,9 +41,8 @@ export default {
             },
           }
         )
-        .then((message) => {
+        .then(() => {
           alert("Votre message a été publié.");
-          console.log(message);
           this.$router.replace("/post");
         });
     },
