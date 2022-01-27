@@ -13,6 +13,9 @@
       <button v-if="isPosterAuthor" @click="deletePost()">
         Supprimer le message
       </button>
+      <button v-if="isNotPosterAuthor" @click="addComment = true">
+        Ajouter un commentaire
+      </button>
     </article>
     <div v-if="modify">
       <form @submit.prevent="modifyPost()">
@@ -21,6 +24,31 @@
         <input type="submit" value="Publier le message modifié." />
       </form>
     </div>
+    <div v-if="addComment">
+      <form @submit.prevent="postComment()">
+        <label>Entrer votre commentaire : </label>
+        <textarea cols="30" rows="10" v-model="commentContent"></textarea>
+        <input type="submit" value="Publier le commentaire" />
+      </form>
+    </div>
+    <article
+      v-for="(comment, index) in comments"
+      :key="index"
+      class="comment-article"
+    >
+      <div class="header">
+        <span
+          >Posté le {{ dateFormat(comment.createdAt) }} par {{ comment.author }}
+        </span>
+      </div>
+      <div class="comment-content">{{ comment.comment }}</div>
+      <button
+        v-if="this.$user.data.id === comment.commenterId"
+        @click="deleteComment(comment.id)"
+      >
+        Supprimer le commentaire
+      </button>
+    </article>
   </div>
 </template>
 
@@ -30,9 +58,13 @@ export default {
   data() {
     return {
       post: [],
+      comments: [],
       isPosterAuthor: false,
+      isNotPosterAuthor: true,
       modify: false,
       modifyMessage: "",
+      addComment: false,
+      commentContent: "",
     };
   },
   methods: {
@@ -67,19 +99,55 @@ export default {
         .put(
           `http://localhost:3000/api/post/${postId}`,
           {
+            post: this.modifyMessage,
+          },
+          {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${this.$token}`,
             },
-          },
-          {
-            post: this.modifyMessage,
           }
         )
         .then(() => {
           console.log(this.modifyMessage);
           alert("Votre message a bien été modifié");
           this.$router.replace("/post");
+        });
+    },
+    postComment() {
+      const id = this.$route.params.id;
+      this.axios
+        .post(
+          "http://localhost:3000/api/comment",
+          {
+            comment: this.commentContent,
+            author: this.$user.data.pseudo,
+            postId: id,
+            commenterId: this.$user.data.id,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${this.$token}`,
+            },
+          }
+        )
+        .then(() => {
+          alert("Votre commentaire a bien été ajouté");
+          this.$router.replace("/post");
+        });
+    },
+    deleteComment(commentId) {
+      this.axios
+        .delete(`http://localhost:3000/api/comment/${commentId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.$token}`,
+          },
+        })
+        .then(() => {
+          alert("votre commentaire a bien été supprimé.");
+          this.$router.replace(`/post`);
         });
     },
   },
@@ -99,7 +167,18 @@ export default {
           this.$user.data.isAdmin === 1
         ) {
           this.isPosterAuthor = true;
+          this.isNotPosterAuthor = false;
         }
+      });
+    this.axios
+      .get(`http://localhost:3000/api/comment/${postId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.$token}`,
+        },
+      })
+      .then((comments) => {
+        this.comments = comments.data.comments;
       });
   },
 };
