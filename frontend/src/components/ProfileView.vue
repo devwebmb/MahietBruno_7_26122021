@@ -25,7 +25,60 @@ export default {
           },
         })
         .then(() => {
+          this.axios
+            .get(`http://localhost:3000/api/post`, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${this.$token}`,
+              },
+            })
+            .then((posts) => {
+              const allPosts = posts.data.data;
+              const postsToDelete = allPosts.filter(function (el) {
+                return el.posterId === userId;
+              });
+              for (let i = 0; i <= postsToDelete.length; i++) {
+                this.axios
+                  .delete(
+                    `http://localhost:3000/api/post/${postsToDelete[i].id}`,
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.$token}`,
+                      },
+                    }
+                  )
+                  .then(() => {});
+              }
+            });
+          this.axios
+            .get(`http://localhost:3000/api/comment`, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${this.$token}`,
+              },
+            })
+            .then((comments) => {
+              const allComments = comments.data.data;
+              const commentsToDelete = allComments.filter(function (el) {
+                return el.commenterId === userId;
+              });
+              for (let i = 0; i <= commentsToDelete.length; i++) {
+                this.axios
+                  .delete(
+                    `http://localhost:3000/api/comment/${commentsToDelete[i].id}`,
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${this.$token}`,
+                      },
+                    }
+                  )
+                  .then(() => {});
+              }
+            });
           localStorage.removeItem("user");
+          alert("Votre compte a bien été supprimé");
           this.$router.replace("/");
         });
     },

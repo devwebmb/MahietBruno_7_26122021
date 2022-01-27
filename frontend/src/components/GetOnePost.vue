@@ -89,6 +89,14 @@ export default {
           },
         })
         .then(() => {
+          this.axios
+            .delete(`http://localhost:3000/api/comment/post/${postId}`, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${this.$token}`,
+              },
+            })
+            .then(() => {});
           alert("Votre message est supprimé.");
           this.$router.replace("/post");
         });

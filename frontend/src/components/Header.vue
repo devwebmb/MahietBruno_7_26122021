@@ -28,7 +28,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .navbar {
   background-color: #ffd7d7;
   max-width: 600px;

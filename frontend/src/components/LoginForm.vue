@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "Login",
   data() {
@@ -25,7 +24,7 @@ export default {
   },
   methods: {
     login() {
-      axios
+      this.axios
         .post(
           "http://localhost:3000/api/user/login",
           {
@@ -40,6 +39,9 @@ export default {
         )
         .then((user) => {
           localStorage.setItem("user", JSON.stringify(user.data));
+          // this.axios.defaults.headers.common[
+          //   "Authorization"
+          // ] = `Bearer ${user.data.token}`;
           this.$router.replace("/post");
         });
     },

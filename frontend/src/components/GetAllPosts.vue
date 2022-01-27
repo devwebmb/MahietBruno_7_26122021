@@ -53,7 +53,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+button {
+  background-color: #fc785d;
+  border: none;
+  border-radius: 25px;
+  color: black;
+  font-weight: bold;
+  padding: 5px 10px;
+  margin-top: 2%;
+}
 .post-article {
   border: #fcd4d3 solid 2px;
   max-width: 600px;

@@ -8,8 +8,16 @@ exports.addComment = (req, res, next) => {
   });
 };
 
-// Lire les commentaires sur un post
+// récupérer tous les commentaires
 exports.getAllComments = (req, res, next) => {
+  Comment.findAll().then((comments) => {
+    const message = "Voici tous les commentaires.";
+    return res.status(200).json({ message, data: comments });
+  });
+};
+
+// Lire les commentaires sur un post
+exports.getPostComments = (req, res, next) => {
   const id = req.params.id;
   Comment.findAll({
     where: {
@@ -28,5 +36,14 @@ exports.deleteComment = (req, res, next) => {
       const message = "Le commentaire a bien été supprimé";
       return res.status(200).json({ message });
     });
+  });
+};
+
+// Supprimer tous les commentaires d'un post
+exports.deletePostComments = (req, res, next) => {
+  const id = parseInt(req.params.id);
+  Comment.destroy({ where: { postId: id } }).then(() => {
+    const message = "les commentaires ont été supprimés.";
+    return res.status(200).json({ message });
   });
 };

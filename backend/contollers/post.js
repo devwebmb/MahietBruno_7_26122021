@@ -16,7 +16,7 @@ exports.getOnePost = (req, res, next) => {
   });
 };
 
-// Ajouter un poste
+// Ajouter un post
 exports.addPost = (req, res, next) => {
   Post.create(req.body).then((post) => {
     const message = "Votre mesage a été créé.";

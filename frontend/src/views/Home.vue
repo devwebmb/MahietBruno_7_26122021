@@ -35,7 +35,7 @@ export default {
 <style scoped>
 .home {
   background-color: #ffd7d7;
-  width: 40%;
+  width: 95%;
   max-width: 400px;
   margin: 5% auto auto auto;
   border-radius: 25px;

@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "Signup",
   data() {
@@ -26,7 +25,7 @@ export default {
   },
   methods: {
     signup() {
-      axios
+      this.axios
         .post(
           "http://localhost:3000/api/user/signup",
           {
@@ -42,7 +41,7 @@ export default {
         )
         .then(() => {
           alert("Votre inscription est validé.");
-          axios
+          this.axios
             .post(
               "http://localhost:3000/api/user/login",
               {
@@ -95,5 +94,19 @@ input {
 .submit-button:hover {
   background-color: #fd2d01;
   transition: 1s;
+}
+@media screen and (max-width: 400px) {
+  .connect-form {
+    display: flex;
+    flex-direction: column;
+  }
+  label,
+  input {
+    width: 80%;
+    margin: auto;
+  }
+  .submit-button {
+    margin: 4% auto;
+  }
 }
 </style>
