@@ -8,7 +8,6 @@
       </div>
       <h2>{{ post.title }}</h2>
       <div class="post-content">{{ post.post }}</div>
-      <div v-if="modify"></div>
       <button v-if="isPosterAuthor" @click="modify = true">Modifier</button>
       <button v-if="isPosterAuthor" @click="deletePost()">
         Supprimer le message
@@ -43,7 +42,7 @@
       </div>
       <div class="comment-content">{{ comment.comment }}</div>
       <button
-        v-if="this.$user.data.id === comment.commenterId"
+        v-if="userId == comment.commenterId"
         @click="deleteComment(comment.id)"
       >
         Supprimer le commentaire
@@ -65,6 +64,10 @@ export default {
       modifyMessage: "",
       addComment: false,
       commentContent: "",
+      author: localStorage.getItem("pseudo"),
+      commenterId: localStorage.getItem("id"),
+      userId: localStorage.getItem("id"),
+      postId: this.$route.params.id,
     };
   },
   methods: {
@@ -80,20 +83,19 @@ export default {
       return event.toLocaleDateString("fr-FR", options);
     },
     deletePost() {
-      const postId = this.$route.params.id;
       this.axios
-        .delete(`http://localhost:3000/api/post/${postId}`, {
+        .delete(`http://localhost:3000/api/post/${this.postId}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${this.$token}`,
+            Authorization: `Bearer ` + localStorage.getItem("token"),
           },
         })
         .then(() => {
           this.axios
-            .delete(`http://localhost:3000/api/comment/post/${postId}`, {
+            .delete(`http://localhost:3000/api/comment/post/${this.postId}`, {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${this.$token}`,
+                Authorization: `Bearer ` + localStorage.getItem("token"),
               },
             })
             .then(() => {});
@@ -102,17 +104,16 @@ export default {
         });
     },
     modifyPost() {
-      const postId = this.$route.params.id;
       this.axios
         .put(
-          `http://localhost:3000/api/post/${postId}`,
+          `http://localhost:3000/api/post/${this.postId}`,
           {
             post: this.modifyMessage,
           },
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${this.$token}`,
+              Authorization: `Bearer ` + localStorage.getItem("token"),
             },
           }
         )
@@ -123,26 +124,29 @@ export default {
         });
     },
     postComment() {
-      const id = this.$route.params.id;
       this.axios
         .post(
           "http://localhost:3000/api/comment",
           {
             comment: this.commentContent,
-            author: this.$user.data.pseudo,
-            postId: id,
-            commenterId: this.$user.data.id,
+            author: this.author,
+            postId: this.postId,
+            commenterId: this.commenterId,
           },
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${this.$token}`,
+              Authorization: `Bearer ` + localStorage.getItem("token"),
             },
           }
         )
         .then(() => {
           alert("Votre commentaire a bien été ajouté");
-          this.$router.replace("/post");
+          this.$router.replace({
+            name: "OnePost",
+            params: { id: this.postId },
+          });
+          // this.$router.replace("/post");
         });
     },
     deleteComment(commentId) {
@@ -150,7 +154,7 @@ export default {
         .delete(`http://localhost:3000/api/comment/${commentId}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${this.$token}`,
+            Authorization: `Bearer ` + localStorage.getItem("token"),
           },
         })
         .then(() => {
@@ -165,14 +169,16 @@ export default {
       .get(`http://localhost:3000/api/post/${postId}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.$token}`,
+          Authorization: `Bearer ` + localStorage.getItem("token"),
         },
       })
-      .then((post) => {
-        this.post = post.data.data;
+      .then((posts) => {
+        this.post = posts.data.data;
+        console.log(this.post.posterId);
+        console.log(this.userId);
         if (
-          this.$user.data.id === this.post.posterId ||
-          this.$user.data.isAdmin === 1
+          this.userId == this.post.posterId ||
+          localStorage.getItem("isAdmin") == true
         ) {
           this.isPosterAuthor = true;
           this.isNotPosterAuthor = false;
@@ -182,7 +188,7 @@ export default {
       .get(`http://localhost:3000/api/comment/${postId}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.$token}`,
+          Authorization: `Bearer ` + localStorage.getItem("token"),
         },
       })
       .then((comments) => {

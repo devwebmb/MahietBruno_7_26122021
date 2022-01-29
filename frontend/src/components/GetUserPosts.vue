@@ -18,13 +18,14 @@ export default {
       posts: [],
     };
   },
+  methods: {},
   created() {
-    const userId = this.$user.data.id;
+    const userId = localStorage.getItem("id");
     this.axios
       .get("http://localhost:3000/api/post/", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.$token}`,
+          Authorization: `Bearer ` + localStorage.getItem("token"),
         },
       })
       .then((post) => {

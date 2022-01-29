@@ -2,7 +2,9 @@ const { Post } = require("../database/sequelize");
 
 // récupérer tous les posts
 exports.getAllPosts = (req, res, next) => {
-  Post.findAll().then((posts) => {
+  Post.findAll({
+    order: [["createdAt", "DESC"]],
+  }).then((posts) => {
     const message = "Voici tous les posts.";
     return res.status(200).json({ message, data: posts });
   });
@@ -47,5 +49,14 @@ exports.deletePost = (req, res, next) => {
       const message = "Le post a bien été supprimé.";
       return res.status(200).json({ message });
     });
+  });
+};
+
+//Supprimer tous les posts d'un utilisateur
+exports.deleteUserPosts = (req, res, next) => {
+  const id = parseInt(req.params.id);
+  Post.destroy({ where: { posterId: id } }).then(() => {
+    const message = "Tous les posts ont été supprimés";
+    return res.status(200).json({ message });
   });
 };

@@ -22,6 +22,12 @@ export default {
   methods: {
     deconnect() {
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("pseudo");
+      localStorage.removeItem("email");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("id");
+
       this.$router.replace("/");
     },
   },

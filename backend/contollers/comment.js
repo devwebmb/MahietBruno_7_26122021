@@ -23,6 +23,7 @@ exports.getPostComments = (req, res, next) => {
     where: {
       postId: id,
     },
+    order: [["createdAt", "DESC"]],
   }).then((comments) => {
     res.status(200).json({ comments });
   });
@@ -43,6 +44,15 @@ exports.deleteComment = (req, res, next) => {
 exports.deletePostComments = (req, res, next) => {
   const id = parseInt(req.params.id);
   Comment.destroy({ where: { postId: id } }).then(() => {
+    const message = "les commentaires ont été supprimés.";
+    return res.status(200).json({ message });
+  });
+};
+
+// Supprimer tous les commentaires d'un utilisateur
+exports.deleteUserComments = (req, res, next) => {
+  const id = parseInt(req.params.id);
+  Comment.destroy({ where: { commenterId: id } }).then(() => {
     const message = "les commentaires ont été supprimés.";
     return res.status(200).json({ message });
   });

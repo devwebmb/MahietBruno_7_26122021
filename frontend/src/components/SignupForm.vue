@@ -55,7 +55,12 @@ export default {
               }
             )
             .then((user) => {
-              localStorage.setItem("user", JSON.stringify(user.data));
+              localStorage.setItem("user", JSON.stringify(user.data.data));
+              localStorage.setItem("pseudo", user.data.data.pseudo);
+              localStorage.setItem("email", user.data.data.email);
+              localStorage.setItem("id", user.data.data.id);
+              localStorage.setItem("isAdmin", user.data.data.isAdmin);
+              localStorage.setItem("token", user.data.token);
               this.$router.replace("/post");
             });
         });

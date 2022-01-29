@@ -43,7 +43,7 @@ export default {
       .get("http://localhost:3000/api/post", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.$token}`,
+          Authorization: `Bearer ` + localStorage.getItem("token"),
         },
       })
       .then((post) => {

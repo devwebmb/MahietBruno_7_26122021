@@ -1,8 +1,8 @@
 <template>
   <div class="profile">
     <div class="user">
-      <span>Pseudo : {{ this.$user.data.pseudo }}</span>
-      <span>Email : {{ this.$user.data.email }}</span>
+      <span>Pseudo : {{ pseudo }}</span>
+      <span>Email : {{ email }}</span>
     </div>
     <button class="delete-profile" @click="deleteUser()">
       Supprimer le compte
@@ -13,73 +13,52 @@
 
 <script>
 export default {
+  data() {
+    return {
+      pseudo: localStorage.getItem("pseudo"),
+      email: localStorage.getItem("email"),
+      userId: localStorage.getItem("id"),
+    };
+  },
   name: "ProfileView",
   methods: {
     deleteUser() {
-      const userId = this.$user.data.id;
       this.axios
-        .delete("http://localhost:3000/api/user/" + `${userId}`, {
+        .delete(`http://localhost:3000/api/user/${this.userId}`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${this.$token}`,
+            Authorization: `Bearer ` + localStorage.getItem("token"),
           },
         })
         .then(() => {
           this.axios
-            .get(`http://localhost:3000/api/post`, {
+            .delete(`http://localhost:3000/api/post/user/${this.userId}`, {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${this.$token}`,
+                Authorization: `Bearer ` + localStorage.getItem("token"),
               },
             })
-            .then((posts) => {
-              const allPosts = posts.data.data;
-              const postsToDelete = allPosts.filter(function (el) {
-                return el.posterId === userId;
-              });
-              for (let i = 0; i <= postsToDelete.length; i++) {
-                this.axios
-                  .delete(
-                    `http://localhost:3000/api/post/${postsToDelete[i].id}`,
-                    {
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${this.$token}`,
-                      },
-                    }
-                  )
-                  .then(() => {});
-              }
-            });
-          this.axios
-            .get(`http://localhost:3000/api/comment`, {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${this.$token}`,
-              },
+            .then(() => {
+              this.axios.delete(
+                `http://localhost:3000/api/comment/user/${this.userId}`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ` + localStorage.getItem("token"),
+                  },
+                }
+              );
             })
-            .then((comments) => {
-              const allComments = comments.data.data;
-              const commentsToDelete = allComments.filter(function (el) {
-                return el.commenterId === userId;
-              });
-              for (let i = 0; i <= commentsToDelete.length; i++) {
-                this.axios
-                  .delete(
-                    `http://localhost:3000/api/comment/${commentsToDelete[i].id}`,
-                    {
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${this.$token}`,
-                      },
-                    }
-                  )
-                  .then(() => {});
-              }
+            .then(() => {
+              localStorage.removeItem("user");
+              localStorage.removeItem("token");
+              localStorage.removeItem("pseudo");
+              localStorage.removeItem("email");
+              localStorage.removeItem("isAdmin");
+              localStorage.removeItem("id");
+
+              this.$router.replace("/");
             });
-          localStorage.removeItem("user");
-          alert("Votre compte a bien été supprimé");
-          this.$router.replace("/");
         });
     },
   },

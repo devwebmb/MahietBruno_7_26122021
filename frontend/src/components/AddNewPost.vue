@@ -21,6 +21,8 @@ export default {
     return {
       title: "",
       message: "",
+      author: localStorage.getItem("pseudo"),
+      posterId: localStorage.getItem("id"),
     };
   },
   methods: {
@@ -31,13 +33,13 @@ export default {
           {
             title: this.title,
             post: this.message,
-            author: this.$user.data.pseudo,
-            posterId: this.$user.data.id,
+            author: this.author,
+            posterId: this.posterId,
           },
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${this.$token}`,
+              Authorization: `Bearer ` + localStorage.getItem("token"),
             },
           }
         )
