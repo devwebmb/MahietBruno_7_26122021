@@ -142,11 +142,11 @@ export default {
         )
         .then(() => {
           alert("Votre commentaire a bien été ajouté");
-          this.$router.replace({
-            name: "OnePost",
-            params: { id: this.postId },
-          });
-          // this.$router.replace("/post");
+          // this.$router.replace({
+          //   name: "OnePost",
+          //   params: { id: this.postId },
+          // });
+          this.$router.replace("/post");
         });
     },
     deleteComment(commentId) {
