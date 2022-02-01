@@ -1,5 +1,22 @@
 <template>
   <div>
+    <ul class="nav nav-pills bg-primary">
+      <li class="nav-item">
+        <router-link :to="{ name: 'Post' }">
+          <a class="nav-link">Tous les messages</a>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to="{ name: 'Account' }">
+          <a class="nav-link">Mon compte</a>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" @click="deconnect()">Se déconnecter</a>
+      </li>
+    </ul>
+  </div>
+  <!-- <div>
     <nav class="navbar">
       <ul>
         <li>
@@ -13,7 +30,7 @@
         <li><a href="" @click="deconnect()">Se déconnecter</a></li>
       </ul>
     </nav>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -35,7 +52,7 @@ export default {
 </script>
 
 <style scoped>
-.navbar {
+/* .navbar {
   background-color: #ffd7d7;
   max-width: 600px;
   margin: auto;
@@ -63,5 +80,5 @@ a:hover {
   color: black;
   background-color: #fd2d01;
   transition: 1s;
-}
+} */
 </style>

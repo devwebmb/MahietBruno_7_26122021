@@ -1,0 +1,89 @@
+// variables
+$palePink: #fcd4d4;
+$middlePink: #fecabf;
+$darkPink: #ffd7d793;
+$red: #fd2d01;
+$fontColor: #2c3e50;
+$black: black;
+$white: white;
+
+//*
+
+a {
+  text-decoration: none;
+  color: $fontColor;
+}
+
+//homeView
+
+.homeForm {
+  max-width: 450px;
+  margin: auto;
+  padding: 2%;
+  background-color: $palePink;
+  border-radius: 0 0 25px 25px;
+
+  button {
+    margin-top: 4%;
+    margin-bottom: 3%;
+  }
+  @media screen and (max-width: 600px) {
+    margin: auto 5%;
+  }
+  .btn {
+    border-radius: 25px;
+    border: none;
+    transition: 0.5s;
+  }
+  .btn-primary {
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+//header
+.nav {
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 3%;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 25px;
+  a {
+    text-decoration: none;
+    color: $white;
+
+    &:hover {
+      color: $black;
+      transform: scale(1.1);
+    }
+  }
+}
+
+//getAllPosts
+
+button {
+  margin-bottom: 3%;
+}
+
+a {
+  text-decoration: none;
+  color: $fontColor;
+}
+.card {
+  margin: auto;
+
+  .card-text {
+    text-align: start;
+  }
+}
+
+//getOnePost
+
+.form-control {
+  margin: auto;
+}
+@import "./variables";
+@import "./bootstrap.min.css";
+@import "./bootswatch";

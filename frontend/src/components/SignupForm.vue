@@ -1,5 +1,46 @@
 <template>
-  <div class="form-container">
+  <div>
+    <form @submit.prevent="signup()" class="homeForm">
+      <fieldset>
+        <legend><strong>Inscription</strong></legend>
+        <div class="form-group">
+          <label class="form-label mt-4"
+            ><strong>Adresse mail : </strong></label
+          >
+          <input
+            type="email"
+            class="form-control"
+            aria-describedby="emailHelp"
+            placeholder="Entrer votre adresse mail"
+            v-model="email"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label mt-4"><strong>Pseudo : </strong></label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Entrer votre pseudo"
+            v-model="pseudo"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1" class="form-label mt-4"
+            ><strong>Mot de passe :</strong>
+          </label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Choisissez un mot de passe"
+            v-model="password"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- <div class="form-container">
     <form class="connect-form" @submit.prevent="signup()">
       <h3>Inscription</h3>
       <label>Email :</label>
@@ -10,7 +51,7 @@
       <input type="password" v-model="password" />
       <input type="submit" value="S'inscrire" class="submit-button" />
     </form>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -70,7 +111,7 @@ export default {
 </script>
 
 <style>
-.connect-form {
+/* .connect-form {
   border: solid 2px #fc785d;
   border-top: none;
   border-radius: 0 0 25px 25px;
@@ -113,5 +154,5 @@ input {
   .submit-button {
     margin: 4% auto;
   }
-}
+} */
 </style>

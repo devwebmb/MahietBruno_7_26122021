@@ -1,6 +1,41 @@
 <template>
-  <div>
-    <article class="post-article">
+  <div id="get-one-post">
+    <div class="card border-primary mb-3" style="max-width: 35rem">
+      <div class="card-header">
+        Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">{{ post.title }}</h4>
+        <p class="card-text">
+          {{ post.post }}
+        </p>
+        <button
+          v-if="isPosterAuthor"
+          @click="modify = true"
+          type="button"
+          class="btn btn-primary"
+        >
+          Modifier
+        </button>
+        <button
+          v-if="isPosterAuthor"
+          @click="deletePost()"
+          type="button"
+          class="btn btn-primary"
+        >
+          Supprimer
+        </button>
+        <button
+          v-if="isNotPosterAuthor"
+          @click="addComment = true"
+          type="button"
+          class="btn btn-primary"
+        >
+          Ajouter un commentaire
+        </button>
+      </div>
+    </div>
+    <!-- <article class="post-article">
       <div class="header">
         <span
           >Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}</span
@@ -15,22 +50,75 @@
       <button v-if="isNotPosterAuthor" @click="addComment = true">
         Ajouter un commentaire
       </button>
-    </article>
+    </article> -->
     <div v-if="modify">
       <form @submit.prevent="modifyPost()">
+        <div class="form-group">
+          <label class="form-label mt-4">Modifier votre commentaire :</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            style="max-width: 35rem"
+            v-model="modifyMessage"
+          ></textarea>
+          <button type="submit" class="btn btn-primary">
+            Modifier le commentaire
+          </button>
+        </div>
+      </form>
+
+      <!-- <form @submit.prevent="modifyPost()">
         <label>Message modifié :</label>
         <textarea cols="30" rows="10" v-model="modifyMessage"></textarea>
         <input type="submit" value="Publier le message modifié." />
-      </form>
+      </form> -->
     </div>
     <div v-if="addComment">
       <form @submit.prevent="postComment()">
+        <div class="form-group">
+          <label class="form-label mt-4">Entrer votre commentaire :</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            style="max-width: 35rem"
+            v-model="commentContent"
+          ></textarea>
+          <button type="submit" class="btn btn-primary">
+            Ajouter le commentaire
+          </button>
+        </div>
+      </form>
+      <!-- <form @submit.prevent="postComment()">
         <label>Entrer votre commentaire : </label>
         <textarea cols="30" rows="10" v-model="commentContent"></textarea>
         <input type="submit" value="Publier le commentaire" />
-      </form>
+      </form> -->
     </div>
-    <article
+    <div
+      v-for="(comment, index) in comments"
+      :key="index"
+      class="comment-article"
+    >
+      <div class="card border-primary mb-3" style="max-width: 20rem">
+        <div class="card-header">
+          Posté le {{ dateFormat(comment.createdAt) }} par {{ comment.author }}
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            {{ comment.comment }}
+          </p>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            v-if="userId == comment.commenterId"
+            @click="deleteComment(comment.id)"
+          >
+            Supprimer le commentaire
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <article
       v-for="(comment, index) in comments"
       :key="index"
       class="comment-article"
@@ -47,7 +135,7 @@
       >
         Supprimer le commentaire
       </button>
-    </article>
+    </article> -->
   </div>
 </template>
 
@@ -199,7 +287,7 @@ export default {
 </script>
 
 <style>
-.post-article {
+/* .post-article {
   border: #fcd4d3 solid 2px;
   max-width: 600px;
   margin: 2% auto;
@@ -211,5 +299,5 @@ export default {
 }
 h2 {
   border-bottom: #fcd4d3 solid 2px;
-}
+} */
 </style>

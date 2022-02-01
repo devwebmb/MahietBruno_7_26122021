@@ -1,0 +1,111 @@
+@import "./bootstrap.min.css";
+@import url("https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap");
+a {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.homeForm {
+  max-width: 450px;
+  margin: auto;
+  padding: 2%;
+  background-color: #fcd4d4;
+  border-radius: 0 0 25px 25px;
+}
+.homeForm button {
+  margin-top: 4%;
+  margin-bottom: 3%;
+}
+@media screen and (max-width: 600px) {
+  .homeForm {
+    margin: auto 5%;
+  }
+}
+.homeForm .btn {
+  border-radius: 25px;
+  border: none;
+  transition: 0.5s;
+}
+.homeForm .btn-primary:hover {
+  transform: scale(1.1);
+}
+
+.nav {
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 3%;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 25px;
+}
+.nav a {
+  text-decoration: none;
+  color: white;
+}
+.nav a:hover {
+  color: black;
+  transform: scale(1.1);
+}
+
+button {
+  margin-bottom: 3%;
+}
+
+a {
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.card {
+  margin: auto;
+}
+.card .card-text {
+  text-align: start;
+}
+
+.form-control {
+  margin: auto;
+}
+
+.bg-dark {
+  background-color: black !important;
+}
+
+.bg-light {
+  background-color: white !important;
+  color: black;
+  border: 1px solid #eee;
+}
+.bg-light.navbar-fixed-top {
+  border-width: 0 0 1px;
+}
+.bg-light.navbar-fixed-bottom {
+  border-width: 1px 0 0;
+}
+
+.navbar {
+  font-size: 18px;
+  font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+  font-weight: 700;
+}
+
+.navbar-brand {
+  padding-top: 0.5rem;
+  font-size: inherit;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.btn {
+  font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+  font-weight: 700;
+}
+.btn-secondary, .btn-warning {
+  color: white;
+}
+
+.pagination a:hover {
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=style.css.map */
