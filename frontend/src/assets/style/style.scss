@@ -13,6 +13,21 @@ a {
   text-decoration: none;
   color: $fontColor;
 }
+.home-logo {
+  max-width: 400px;
+  margin: auto;
+  img {
+    width: 100%;
+  }
+  @media screen and (max-width: 450px) {
+    max-width: 300px;
+    margin: auto;
+  }
+  @media screen and (max-width: 350px) {
+    max-width: 220px;
+    margin: auto;
+  }
+}
 
 //homeView
 
@@ -20,24 +35,6 @@ a {
   max-width: 450px;
   margin: auto;
 
-  #home-logo {
-    max-width: 400px;
-    margin: auto;
-    img {
-      width: 100%;
-    }
-    // @media screen and (max-width: 600px) {
-    //   margin: auto 5%;
-    // }
-    @media screen and (max-width: 450px) {
-      max-width: 300px;
-      margin: auto;
-    }
-    @media screen and (max-width: 350px) {
-      max-width: 220px;
-      margin: auto;
-    }
-  }
   .homeForm {
     padding: 2%;
     border-radius: 25px;
@@ -77,24 +74,52 @@ a {
 }
 
 //header
-.nav {
+// .nav {
+//   max-width: 600px;
+//   margin: auto;
+//   margin-bottom: 3%;
+//   justify-content: center;
+//   border-radius: 25px;
+//   a {
+//     text-decoration: none;
+//     color: $white;
+
+//     &:hover {
+//       color: $black;
+//       transform: scale(1.1);
+//     }
+//   }
+// }
+
+#navbar {
   max-width: 600px;
   margin: auto;
-  margin-bottom: 3%;
-  display: flex;
-  justify-content: space-around;
-  border-radius: 25px;
-  a {
-    text-decoration: none;
-    color: $white;
-
-    &:hover {
-      color: $black;
-      transform: scale(1.1);
+  nav {
+    border-radius: 25px;
+    margin-bottom: 3%;
+    width: 95%;
+    margin: 3% auto;
+    ul {
+      width: 90%;
+      margin: auto;
+      justify-content: space-between;
+    }
+    a {
+      text-decoration: none;
+      color: $white;
+      &:hover {
+        color: $fontColor;
+        transform: scale(1.1);
+      }
+    }
+    @media screen and (max-width: 575px) {
+      max-width: 350px;
+      width: 90%;
+      margin: auto;
+      margin-bottom: 3%;
     }
   }
 }
-
 //getAllPosts
 
 button {

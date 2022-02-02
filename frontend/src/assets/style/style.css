@@ -5,28 +5,29 @@ a {
   color: #2c3e50;
 }
 
-.home {
-  max-width: 450px;
-  margin: auto;
-}
-.home #home-logo {
+.home-logo {
   max-width: 400px;
   margin: auto;
 }
-.home #home-logo img {
+.home-logo img {
   width: 100%;
 }
 @media screen and (max-width: 450px) {
-  .home #home-logo {
+  .home-logo {
     max-width: 300px;
     margin: auto;
   }
 }
 @media screen and (max-width: 350px) {
-  .home #home-logo {
+  .home-logo {
     max-width: 220px;
     margin: auto;
   }
+}
+
+.home {
+  max-width: 450px;
+  margin: auto;
 }
 .home .homeForm {
   padding: 2%;
@@ -66,21 +67,36 @@ a {
   }
 }
 
-.nav {
+#navbar {
   max-width: 600px;
   margin: auto;
-  margin-bottom: 3%;
-  display: flex;
-  justify-content: space-around;
-  border-radius: 25px;
 }
-.nav a {
+#navbar nav {
+  border-radius: 25px;
+  margin-bottom: 3%;
+  width: 95%;
+  margin: 3% auto;
+}
+#navbar nav ul {
+  width: 90%;
+  margin: auto;
+  justify-content: space-between;
+}
+#navbar nav a {
   text-decoration: none;
   color: white;
 }
-.nav a:hover {
-  color: black;
+#navbar nav a:hover {
+  color: #2c3e50;
   transform: scale(1.1);
+}
+@media screen and (max-width: 575px) {
+  #navbar nav {
+    max-width: 350px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 3%;
+  }
 }
 
 button {

@@ -1,7 +1,10 @@
 <template>
   <div class="home">
-    <div id="home-logo">
-      <img src="../assets/images/logo-recadre-font.png" alt="" />
+    <div class="home-logo">
+      <img
+        src="../assets/images/logo-recadre-font.png"
+        alt="Logo et nom de l'entreprise"
+      />
     </div>
     <div class="homeForm">
       <div id="home-menu">
