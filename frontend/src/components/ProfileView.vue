@@ -31,34 +31,13 @@ export default {
           },
         })
         .then(() => {
-          this.axios
-            .delete(`http://localhost:3000/api/post/user/${this.userId}`, {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ` + localStorage.getItem("token"),
-              },
-            })
-            .then(() => {
-              this.axios.delete(
-                `http://localhost:3000/api/comment/user/${this.userId}`,
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ` + localStorage.getItem("token"),
-                  },
-                }
-              );
-            })
-            .then(() => {
-              localStorage.removeItem("user");
-              localStorage.removeItem("token");
-              localStorage.removeItem("pseudo");
-              localStorage.removeItem("email");
-              localStorage.removeItem("isAdmin");
-              localStorage.removeItem("id");
-
-              this.$router.replace("/");
-            });
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+          localStorage.removeItem("pseudo");
+          localStorage.removeItem("email");
+          localStorage.removeItem("isAdmin");
+          localStorage.removeItem("id");
+          this.$router.replace("/");
         });
     },
   },

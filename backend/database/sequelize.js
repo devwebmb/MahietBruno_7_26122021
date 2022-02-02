@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
 const UserModel = require("../models/User");
 const PostModel = require("../models/Post");
 const CommentModel = require("../models/Comment");
@@ -31,6 +32,14 @@ const Comment = CommentModel(dataBase, DataTypes);
 
 const initDb = () => {
   return dataBase.sync({ force: true }).then(() => {
+    bcrypt.hash(`Admin?!94`, 10).then((hash) => {
+      User.create({
+        email: "admin@gmail.com",
+        pseudo: "admin",
+        password: hash,
+        isAdmin: true,
+      }).then((user) => console.log(user.toJSON()));
+    });
     console.log("la base de données est initialisée.");
   });
 };

@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../database/sequelize");
+const { Post } = require("../database/sequelize");
+const { Comment } = require("../database/sequelize");
 const { ValidationError } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const privateKey = require("../auth/private_keys");
@@ -105,6 +107,7 @@ exports.updateUser = (req, res, next) => {
 };
 
 //Delete user
+
 exports.deleteUser = (req, res, next) => {
   User.findOne({
     where: {
@@ -115,8 +118,13 @@ exports.deleteUser = (req, res, next) => {
       return res.status(400).json({ err: "id inconnu" });
     }
     user.destroy().then(() => {
-      const message = "L'utilisateur a été supprimé.";
-      res.status(200).json({ message });
+      Post.destroy({ where: { posterId: req.params.id } }).then(() => {
+        Comment.destroy({ where: { commenterId: req.params.id } }).then(() => {
+          const message =
+            "L'utilisateur, ses posts et ses commentaires ont été supprimés";
+          return res.status(200).json({ message });
+        });
+      });
     });
   });
 };

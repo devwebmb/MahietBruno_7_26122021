@@ -16,28 +16,62 @@ a {
 
 //homeView
 
-.homeForm {
+.home {
   max-width: 450px;
   margin: auto;
-  padding: 2%;
-  background-color: $palePink;
-  border-radius: 0 0 25px 25px;
 
-  button {
-    margin-top: 4%;
-    margin-bottom: 3%;
+  #home-logo {
+    max-width: 400px;
+    margin: auto;
+    img {
+      width: 100%;
+    }
+    // @media screen and (max-width: 600px) {
+    //   margin: auto 5%;
+    // }
+    @media screen and (max-width: 450px) {
+      max-width: 300px;
+      margin: auto;
+    }
+    @media screen and (max-width: 350px) {
+      max-width: 220px;
+      margin: auto;
+    }
   }
-  @media screen and (max-width: 600px) {
-    margin: auto 5%;
-  }
-  .btn {
+  .homeForm {
+    padding: 2%;
     border-radius: 25px;
-    border: none;
-    transition: 0.5s;
-  }
-  .btn-primary {
-    &:hover {
-      transform: scale(1.1);
+    background-color: #fcd4d4;
+    margin: auto;
+    border: solid 1px #eb6864;
+    #home-menu {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+      margin: 5% 10%;
+
+      @media screen and (max-width: 320px) {
+        flex-direction: column;
+        .btn {
+          margin-bottom: 5%;
+        }
+      }
+    }
+    .btn {
+      border-radius: 25px;
+      border: none;
+      transition: 0.5s;
+    }
+    .btn-primary {
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    .submit-btn {
+      margin-top: 3%;
+    }
+    @media screen and (max-width: 600px) {
+      margin: auto 5%;
     }
   }
 }
@@ -85,5 +119,6 @@ a {
   margin: auto;
 }
 @import "./variables";
-@import "./bootstrap.min.css";
+// @import "./bootstrap.min.css";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "./bootswatch";

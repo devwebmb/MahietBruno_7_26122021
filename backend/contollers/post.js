@@ -35,7 +35,7 @@ exports.updatePost = (req, res, next) => {
     },
   }).then(() => {
     Post.findByPk(id).then((post) => {
-      const message = `Le post ${post.title} a bien été modifié.`;
+      const message = `Le post a bien été modifié.`;
       return res.status(200).json({ message, data: post });
     });
   });

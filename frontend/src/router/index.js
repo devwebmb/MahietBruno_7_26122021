@@ -21,16 +21,25 @@ const routes = [
     path: "/post/:id",
     name: "OnePost",
     component: () => import("../views/OnePost.vue"),
+    meta: {
+      middleware: auth,
+    },
   },
   {
     path: "/account",
     name: "Account",
     component: () => import("../views/Account.vue"),
+    meta: {
+      middleware: auth,
+    },
   },
   {
     path: "/addPost",
     name: "AddPost",
     component: () => import("../views/NewPost.vue"),
+    meta: {
+      middleware: auth,
+    },
   },
 ];
 

@@ -13,6 +13,7 @@
             aria-describedby="emailHelp"
             placeholder="Entrer votre adresse mail"
             v-model="email"
+            required
           />
         </div>
         <div class="form-group">
@@ -24,24 +25,15 @@
             class="form-control"
             placeholder="Choisissez un mot de passe"
             v-model="password"
+            required
           />
         </div>
-        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <button type="submit" class="btn btn-primary submit-btn">
+          Se connecter
+        </button>
       </fieldset>
     </form>
   </div>
-  <!-- <div>
-    <div class="form-container">
-      <form class="connect-form" @submit.prevent="login()">
-        <h3>Connexion</h3>
-        <label>Email :</label>
-        <input type="email" v-model="email" /><br />
-        <label>Mot de passe :</label>
-        <input type="password" v-model="password" />
-        <input type="submit" value="Se connecter" class="submit-button" />
-      </form>
-    </div>
-  </div> -->
 </template>
 
 <script>

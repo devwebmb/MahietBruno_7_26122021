@@ -10,7 +10,7 @@
           {{ post.post }}
         </p>
         <button
-          v-if="isPosterAuthor"
+          v-if="isPosterAuthor || this.isAdmin"
           @click="modify = true"
           type="button"
           class="btn btn-primary"
@@ -18,7 +18,7 @@
           Modifier
         </button>
         <button
-          v-if="isPosterAuthor"
+          v-if="isPosterAuthor || this.isAdmin"
           @click="deletePost()"
           type="button"
           class="btn btn-primary"
@@ -26,7 +26,6 @@
           Supprimer
         </button>
         <button
-          v-if="isNotPosterAuthor"
           @click="addComment = true"
           type="button"
           class="btn btn-primary"
@@ -35,22 +34,6 @@
         </button>
       </div>
     </div>
-    <!-- <article class="post-article">
-      <div class="header">
-        <span
-          >Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}</span
-        >
-      </div>
-      <h2>{{ post.title }}</h2>
-      <div class="post-content">{{ post.post }}</div>
-      <button v-if="isPosterAuthor" @click="modify = true">Modifier</button>
-      <button v-if="isPosterAuthor" @click="deletePost()">
-        Supprimer le message
-      </button>
-      <button v-if="isNotPosterAuthor" @click="addComment = true">
-        Ajouter un commentaire
-      </button>
-    </article> -->
     <div v-if="modify">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
@@ -66,12 +49,6 @@
           </button>
         </div>
       </form>
-
-      <!-- <form @submit.prevent="modifyPost()">
-        <label>Message modifié :</label>
-        <textarea cols="30" rows="10" v-model="modifyMessage"></textarea>
-        <input type="submit" value="Publier le message modifié." />
-      </form> -->
     </div>
     <div v-if="addComment">
       <form @submit.prevent="postComment()">
@@ -88,11 +65,6 @@
           </button>
         </div>
       </form>
-      <!-- <form @submit.prevent="postComment()">
-        <label>Entrer votre commentaire : </label>
-        <textarea cols="30" rows="10" v-model="commentContent"></textarea>
-        <input type="submit" value="Publier le commentaire" />
-      </form> -->
     </div>
     <div
       v-for="(comment, index) in comments"
@@ -118,24 +90,6 @@
         </div>
       </div>
     </div>
-    <!-- <article
-      v-for="(comment, index) in comments"
-      :key="index"
-      class="comment-article"
-    >
-      <div class="header">
-        <span
-          >Posté le {{ dateFormat(comment.createdAt) }} par {{ comment.author }}
-        </span>
-      </div>
-      <div class="comment-content">{{ comment.comment }}</div>
-      <button
-        v-if="userId == comment.commenterId"
-        @click="deleteComment(comment.id)"
-      >
-        Supprimer le commentaire
-      </button>
-    </article> -->
   </div>
 </template>
 
@@ -147,7 +101,6 @@ export default {
       post: [],
       comments: [],
       isPosterAuthor: false,
-      isNotPosterAuthor: true,
       modify: false,
       modifyMessage: "",
       addComment: false,
@@ -155,6 +108,7 @@ export default {
       author: localStorage.getItem("pseudo"),
       commenterId: localStorage.getItem("id"),
       userId: localStorage.getItem("id"),
+      isAdmin: localStorage.getItem("isAdmin"),
       postId: this.$route.params.id,
     };
   },
@@ -169,6 +123,31 @@ export default {
         minute: "numeric",
       };
       return event.toLocaleDateString("fr-FR", options);
+    },
+    getOnePost() {
+      this.axios
+        .get(`http://localhost:3000/api/post/${this.postId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then((posts) => {
+          this.post = posts.data.data;
+          if (this.userId == this.post.posterId) {
+            this.isPosterAuthor = true;
+          }
+        });
+      this.axios
+        .get(`http://localhost:3000/api/comment/${this.postId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then((comments) => {
+          this.comments = comments.data.comments;
+        });
     },
     deletePost() {
       this.axios
@@ -206,9 +185,10 @@ export default {
           }
         )
         .then(() => {
-          console.log(this.modifyMessage);
           alert("Votre message a bien été modifié");
-          this.$router.replace("/post");
+          // this.$router.replace("/post");
+          //this.getOnePost();
+          location.reload();
         });
     },
     postComment() {
@@ -230,11 +210,8 @@ export default {
         )
         .then(() => {
           alert("Votre commentaire a bien été ajouté");
-          // this.$router.replace({
-          //   name: "OnePost",
-          //   params: { id: this.postId },
-          // });
-          this.$router.replace("/post");
+          //this.$router.replace("/post");
+          location.reload();
         });
     },
     deleteComment(commentId) {
@@ -247,57 +224,15 @@ export default {
         })
         .then(() => {
           alert("votre commentaire a bien été supprimé.");
-          this.$router.replace(`/post`);
+          //this.$router.replace(`/post`);
+          location.reload();
         });
     },
   },
   created() {
-    const postId = this.$route.params.id;
-    this.axios
-      .get(`http://localhost:3000/api/post/${postId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      })
-      .then((posts) => {
-        this.post = posts.data.data;
-        console.log(this.post.posterId);
-        console.log(this.userId);
-        if (
-          this.userId == this.post.posterId ||
-          localStorage.getItem("isAdmin") == true
-        ) {
-          this.isPosterAuthor = true;
-          this.isNotPosterAuthor = false;
-        }
-      });
-    this.axios
-      .get(`http://localhost:3000/api/comment/${postId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      })
-      .then((comments) => {
-        this.comments = comments.data.comments;
-      });
+    this.getOnePost();
   },
 };
 </script>
 
-<style>
-/* .post-article {
-  border: #fcd4d3 solid 2px;
-  max-width: 600px;
-  margin: 2% auto;
-  border-radius: 25px;
-}
-
-.post-article .header {
-  border-bottom: #fcd4d3 solid 2px;
-}
-h2 {
-  border-bottom: #fcd4d3 solid 2px;
-} */
-</style>
+<style></style>
