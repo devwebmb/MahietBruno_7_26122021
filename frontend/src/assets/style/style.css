@@ -1,10 +1,5 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap");
-a {
-  text-decoration: none;
-  color: #2c3e50;
-}
-
 .home-logo {
   max-width: 400px;
   margin: auto;
@@ -50,13 +45,14 @@ a {
     margin-bottom: 5%;
   }
 }
-.home .homeForm .btn {
+.home .homeForm button {
   border-radius: 25px;
-  border: none;
   transition: 0.5s;
+  color: #242a30;
 }
-.home .homeForm .btn-primary:hover {
+.home .homeForm button:hover {
   transform: scale(1.1);
+  color: white;
 }
 .home .homeForm .submit-btn {
   margin-top: 3%;
@@ -84,11 +80,14 @@ a {
 }
 #navbar nav a {
   text-decoration: none;
-  color: white;
+  color: #242a30;
+  transition: 0.5s;
+  border-radius: 25px;
 }
 #navbar nav a:hover {
-  color: #2c3e50;
   transform: scale(1.1);
+  background-color: #c85855;
+  color: white;
 }
 @media screen and (max-width: 575px) {
   #navbar nav {
@@ -99,24 +98,81 @@ a {
   }
 }
 
-button {
-  margin-bottom: 3%;
+.card-view button {
+  border-radius: 25px;
+  transition: 0.5s;
+  margin-bottom: 2%;
+  color: #242a30;
 }
-
-a {
+.card-view button:hover {
+  transform: scale(1.1);
+  color: white;
+}
+.card-view .card {
+  margin: auto;
+}
+.card-view .card-body {
+  padding: 0;
+}
+.card-view .card-header {
+  background-color: #fcd4d4;
+}
+.card-view a {
   text-decoration: none;
   color: #2c3e50;
 }
-
-.card {
+.card-view h4, .card-view .h4 {
+  text-decoration: underline;
+  padding-top: 2%;
+}
+.card-view p {
+  border-bottom: 1px solid #eb6864;
+  padding-bottom: 2%;
+}
+.card-view #post-buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 85%;
   margin: auto;
 }
-.card .card-text {
-  text-align: start;
+.card-view #add-comment {
+  max-width: 500px;
+  margin: auto;
+}
+.card-view #add-comment textarea {
+  margin-bottom: 3%;
+}
+@media screen and (max-width: 600px) {
+  .card-view {
+    width: 95%;
+    margin: auto;
+  }
 }
 
-.form-control {
+#add-post {
+  max-width: 500px;
   margin: auto;
+}
+#add-post textarea {
+  margin-bottom: 3%;
+}
+@media screen and (max-width: 600px) {
+  #add-post {
+    width: 95%;
+    margin: auto;
+  }
+}
+
+#profile-view button {
+  border-radius: 25px;
+  transition: 0.5s;
+  color: #242a30;
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+#profile-view button:hover {
+  transform: scale(1.1);
+  color: white;
 }
 
 /*!

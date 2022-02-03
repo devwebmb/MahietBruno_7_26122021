@@ -1,5 +1,5 @@
 <template>
-  <div id="get-one-post">
+  <div id="get-one-post" class="card-view">
     <div class="card border-primary mb-3" style="max-width: 35rem">
       <div class="card-header">
         Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
@@ -9,22 +9,24 @@
         <p class="card-text">
           {{ post.post }}
         </p>
-        <button
-          v-if="isPosterAuthor || this.isAdmin"
-          @click="modify = true"
-          type="button"
-          class="btn btn-primary"
-        >
-          Modifier
-        </button>
-        <button
-          v-if="isPosterAuthor || this.isAdmin"
-          @click="deletePost()"
-          type="button"
-          class="btn btn-primary"
-        >
-          Supprimer
-        </button>
+        <div id="post-buttons">
+          <button
+            v-if="isPosterAuthor || this.isAdmin"
+            @click="modify = true"
+            type="button"
+            class="btn btn-primary"
+          >
+            Modifier
+          </button>
+          <button
+            v-if="isPosterAuthor || this.isAdmin"
+            @click="deletePost()"
+            type="button"
+            class="btn btn-primary"
+          >
+            Supprimer
+          </button>
+        </div>
         <button
           @click="addComment = true"
           type="button"
@@ -50,7 +52,7 @@
         </div>
       </form>
     </div>
-    <div v-if="addComment">
+    <div v-if="addComment" id="add-comment">
       <form @submit.prevent="postComment()">
         <div class="form-group">
           <label class="form-label mt-4">Entrer votre commentaire :</label>
@@ -59,6 +61,7 @@
             rows="3"
             style="max-width: 35rem"
             v-model="commentContent"
+            placeholder="Entrer ici votre commentaire"
           ></textarea>
           <button type="submit" class="btn btn-primary">
             Ajouter le commentaire
@@ -73,7 +76,8 @@
     >
       <div class="card border-primary mb-3" style="max-width: 20rem">
         <div class="card-header">
-          Posté le {{ dateFormat(comment.createdAt) }} par {{ comment.author }}
+          Commenté le {{ dateFormat(comment.createdAt) }} par
+          {{ comment.author }}
         </div>
         <div class="card-body">
           <p class="card-text">

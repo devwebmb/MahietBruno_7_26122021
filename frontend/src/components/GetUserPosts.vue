@@ -1,9 +1,17 @@
 <template>
-  <div class="user-posts">
+  <div id="user-posts" class="card-view">
     <div v-for="post in posts" :key="post.id">
       <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
-        <div class="post">
-          {{ post.title }}
+        <div class="card border-primary mb-3" style="max-width: 25rem">
+          <div class="card-header">
+            Posté le {{ dateFormat(post.createdAt) }}
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">{{ post.title }}</h4>
+            <p class="card-text">
+              {{ post.post }}
+            </p>
+          </div>
         </div>
       </router-link>
     </div>
@@ -18,7 +26,19 @@ export default {
       posts: [],
     };
   },
-  methods: {},
+  methods: {
+    dateFormat(date) {
+      const event = new Date(date);
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      };
+      return event.toLocaleDateString("fr-FR", options);
+    },
+  },
   created() {
     const userId = localStorage.getItem("id");
     this.axios

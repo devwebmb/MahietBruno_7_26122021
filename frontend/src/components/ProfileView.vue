@@ -1,10 +1,11 @@
 <template>
-  <div class="profile">
+  <div id="profile-view">
     <div class="user">
-      <span>Pseudo : {{ pseudo }}</span>
-      <span>Email : {{ email }}</span>
+      <span><strong>Pseudo : </strong>{{ pseudo }}</span>
+      <br />
+      <span><strong>Email : </strong>{{ email }}</span>
     </div>
-    <button class="delete-profile" @click="deleteUser()">
+    <button type="button" class="btn btn-primary" @click="deleteUser()">
       Supprimer le compte
     </button>
     <h2>Mes messages</h2>

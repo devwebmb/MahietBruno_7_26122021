@@ -4,21 +4,26 @@
       <fieldset>
         <legend><strong>Inscription</strong></legend>
         <div class="form-group">
-          <label class="form-label mt-4"
+          <label for="email" class="form-label mt-4"
             ><strong>Adresse mail : </strong></label
           >
           <input
+            id="email"
+            name="email"
             type="email"
             class="form-control"
-            aria-describedby="emailHelp"
             placeholder="Entrer votre adresse mail"
             v-model="email"
             required
           />
         </div>
         <div class="form-group">
-          <label class="form-label mt-4"><strong>Pseudo : </strong></label>
+          <label for="pseudo" class="form-label mt-4"
+            ><strong>Pseudo : </strong></label
+          >
           <input
+            id="pseudo"
+            name="pseudo"
             type="text"
             class="form-control"
             placeholder="Entrer votre pseudo"
@@ -27,10 +32,12 @@
           />
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1" class="form-label mt-4"
+          <label for="password" class="form-label mt-4"
             ><strong>Mot de passe :</strong>
           </label>
           <input
+            name="password"
+            id="password"
             type="password"
             class="form-control"
             placeholder="Choisissez un mot de passe"

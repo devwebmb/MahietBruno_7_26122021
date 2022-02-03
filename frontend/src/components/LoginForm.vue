@@ -4,23 +4,26 @@
       <fieldset>
         <legend><strong>Connexion</strong></legend>
         <div class="form-group">
-          <label class="form-label mt-4"
+          <label for="email" class="form-label mt-4"
             ><strong>Adresse mail : </strong></label
           >
           <input
+            name="email"
+            id="email"
             type="email"
             class="form-control"
-            aria-describedby="emailHelp"
             placeholder="Entrer votre adresse mail"
             v-model="email"
             required
           />
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1" class="form-label mt-4"
+          <label for="password" class="form-label mt-4"
             ><strong>Mot de passe :</strong>
           </label>
           <input
+            id="password"
+            name="password"
             type="password"
             class="form-control"
             placeholder="Choisissez un mot de passe"

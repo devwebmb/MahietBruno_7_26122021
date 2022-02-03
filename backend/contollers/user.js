@@ -4,7 +4,7 @@ const { Post } = require("../database/sequelize");
 const { Comment } = require("../database/sequelize");
 const { ValidationError } = require("sequelize");
 const jwt = require("jsonwebtoken");
-const privateKey = require("../auth/private_keys");
+const privateKey = require("../middlewares/private_keys");
 
 // inscription
 exports.signup = (req, res, next) => {

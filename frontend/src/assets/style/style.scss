@@ -9,10 +9,6 @@ $white: white;
 
 //*
 
-a {
-  text-decoration: none;
-  color: $fontColor;
-}
 .home-logo {
   max-width: 400px;
   margin: auto;
@@ -54,14 +50,13 @@ a {
         }
       }
     }
-    .btn {
+    button {
       border-radius: 25px;
-      border: none;
       transition: 0.5s;
-    }
-    .btn-primary {
+      color: #242a30;
       &:hover {
         transform: scale(1.1);
+        color: $white;
       }
     }
     .submit-btn {
@@ -74,22 +69,6 @@ a {
 }
 
 //header
-// .nav {
-//   max-width: 600px;
-//   margin: auto;
-//   margin-bottom: 3%;
-//   justify-content: center;
-//   border-radius: 25px;
-//   a {
-//     text-decoration: none;
-//     color: $white;
-
-//     &:hover {
-//       color: $black;
-//       transform: scale(1.1);
-//     }
-//   }
-// }
 
 #navbar {
   max-width: 600px;
@@ -106,10 +85,13 @@ a {
     }
     a {
       text-decoration: none;
-      color: $white;
+      color: #242a30;
+      transition: 0.5s;
+      border-radius: 25px;
       &:hover {
-        color: $fontColor;
         transform: scale(1.1);
+        background-color: #c85855;
+        color: $white;
       }
     }
     @media screen and (max-width: 575px) {
@@ -120,30 +102,90 @@ a {
     }
   }
 }
-//getAllPosts
+//getAllPosts, getOnePost
 
-button {
-  margin-bottom: 3%;
-}
+.card-view {
+  button {
+    border-radius: 25px;
+    transition: 0.5s;
+    margin-bottom: 2%;
+    color: #242a30;
 
-a {
-  text-decoration: none;
-  color: $fontColor;
-}
-.card {
-  margin: auto;
+    &:hover {
+      transform: scale(1.1);
+      color: $white;
+    }
+  }
+  .card {
+    margin: auto;
+  }
+  .card-body {
+    padding: 0;
+  }
+  .card-header {
+    background-color: $palePink;
+  }
+  a {
+    text-decoration: none;
+    color: $fontColor;
+  }
+  h4 {
+    text-decoration: underline;
+    padding-top: 2%;
+  }
+  p {
+    border-bottom: 1px solid #eb6864;
+    padding-bottom: 2%;
+  }
+  #post-buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 85%;
+    margin: auto;
+  }
+  #add-comment {
+    max-width: 500px;
+    margin: auto;
+    textarea {
+      margin-bottom: 3%;
+    }
+  }
 
-  .card-text {
-    text-align: start;
+  @media screen and (max-width: 600px) {
+    width: 95%;
+    margin: auto;
   }
 }
 
-//getOnePost
+//addNewPost
 
-.form-control {
+#add-post {
+  max-width: 500px;
   margin: auto;
+  textarea {
+    margin-bottom: 3%;
+  }
+  @media screen and (max-width: 600px) {
+    width: 95%;
+    margin: auto;
+  }
+}
+
+// profileView
+
+#profile-view {
+  button {
+    border-radius: 25px;
+    transition: 0.5s;
+    color: #242a30;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    &:hover {
+      transform: scale(1.1);
+      color: $white;
+    }
+  }
 }
 @import "./variables";
-// @import "./bootstrap.min.css";
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "./bootswatch";

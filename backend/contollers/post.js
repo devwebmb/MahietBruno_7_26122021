@@ -1,4 +1,5 @@
 const { Post } = require("../database/sequelize");
+// const fs = require("fs");
 
 // récupérer tous les posts
 exports.getAllPosts = (req, res, next) => {
@@ -20,10 +21,28 @@ exports.getOnePost = (req, res, next) => {
 
 // Ajouter un post
 exports.addPost = (req, res, next) => {
-  Post.create(req.body).then((post) => {
-    const message = "Votre mesage a été créé.";
-    return res.status(201).json({ message, data: post });
+  const message = req.body.post;
+  const author = req.body.author;
+  const title = req.body.title;
+  const posterId = req.body.posterId;
+  const file = `${req.protocol}://${req.get("host")}/images/${
+    req.file.filename
+  }`;
+  const post = new Post({
+    post: message,
+    author: author,
+    title: title,
+    posterId: posterId,
+    imgUrl: file,
   });
+  post
+    .save()
+    .then(() => res.status(201).json({ message: "Message posté." }))
+    .catch((error) => res.status(400).json({ error }));
+  // Post.create(req.body).then((post) => {
+  //   const message = "Votre mesage a été créé.";
+  //   return res.status(201).json({ message, data: post });
+  // });
 };
 
 //Modifier un post

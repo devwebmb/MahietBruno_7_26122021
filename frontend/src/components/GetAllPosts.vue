@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="all-posts-view" class="card-view">
     <router-link :to="{ name: 'AddPost' }">
       <button type="button" class="btn btn-primary">Nouveau message</button>
     </router-link>
@@ -57,4 +57,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>

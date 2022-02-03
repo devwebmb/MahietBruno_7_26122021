@@ -1,5 +1,5 @@
 const express = require("express");
-const auth = require("../auth/auth");
+const auth = require("../middlewares/auth");
 const router = express.Router();
 
 const commentCtrl = require("../contollers/comment");
@@ -9,6 +9,6 @@ router.get("/", auth, commentCtrl.getAllComments);
 router.get("/:id", auth, commentCtrl.getPostComments);
 router.delete("/:id", auth, commentCtrl.deleteComment);
 router.delete("/post/:id", auth, commentCtrl.deleteUserComments);
-router.delete("/user/:id", commentCtrl.deleteUserComments);
+router.delete("/user/:id", auth, commentCtrl.deleteUserComments);
 
 module.exports = router;
