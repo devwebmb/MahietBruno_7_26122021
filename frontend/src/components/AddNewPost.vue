@@ -71,28 +71,6 @@ export default {
           this.$router.replace("/post");
         });
     },
-    // addPost() {
-    //   this.axios
-    //     .post(
-    //       "http://localhost:3000/api/post",
-    //       {
-    //         title: this.title,
-    //         post: this.message,
-    //         author: this.author,
-    //         posterId: this.posterId,
-    //       },
-    //       {
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           Authorization: `Bearer ` + localStorage.getItem("token"),
-    //         },
-    //       }
-    //     )
-    //     .then(() => {
-    //       alert("Votre message a été publié.");
-    //       this.$router.replace("/post");
-    //     });
-    // },
   },
 };
 </script>

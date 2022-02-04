@@ -25,24 +25,18 @@ exports.addPost = (req, res, next) => {
   const author = req.body.author;
   const title = req.body.title;
   const posterId = req.body.posterId;
-  const file = `${req.protocol}://${req.get("host")}/images/${
-    req.file.filename
-  }`;
-  const post = new Post({
-    post: message,
-    author: author,
+  // const file = `${req.protocol}://localhost:8080/src/assets/post-images/${req.file.filename}`;
+  const file = `C:/Users/bruno/OneDrive/Bureau/Développement web/Openclassrooms/Projet 7/Projet 7/MahietBruno_7_26122021/frontend/src/assets/post-images/${req.file.filename}`;
+  Post.create({
     title: title,
+    author: author,
+    post: message,
     posterId: posterId,
     imgUrl: file,
+  }).then((post) => {
+    const message = "Votre mesage a été créé.";
+    return res.status(201).json({ message, data: post });
   });
-  post
-    .save()
-    .then(() => res.status(201).json({ message: "Message posté." }))
-    .catch((error) => res.status(400).json({ error }));
-  // Post.create(req.body).then((post) => {
-  //   const message = "Votre mesage a été créé.";
-  //   return res.status(201).json({ message, data: post });
-  // });
 };
 
 //Modifier un post

@@ -13,7 +13,10 @@ const MINE_TYPES = {
 // de l'image ainsi que l'extension
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "images");
+    callback(
+      null,
+      "C:/Users/bruno/OneDrive/Bureau/Développement web/Openclassrooms/Projet 7/Projet 7/MahietBruno_7_26122021/frontend/src/assets/post-images"
+    );
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(" ").join("_");
