@@ -11,6 +11,10 @@
           </div>
           <div class="card-body">
             <h4 class="card-title">{{ post.title }}</h4>
+            <img
+              :src="require('../assets/post-images/' + post.imgUrl)"
+              style="width: 300px"
+            />
             <p class="card-text">
               {{ post.post }}
             </p>

@@ -25,8 +25,7 @@ exports.addPost = (req, res, next) => {
   const author = req.body.author;
   const title = req.body.title;
   const posterId = req.body.posterId;
-  // const file = `${req.protocol}://localhost:8080/src/assets/post-images/${req.file.filename}`;
-  const file = `C:/Users/bruno/OneDrive/Bureau/Développement web/Openclassrooms/Projet 7/Projet 7/MahietBruno_7_26122021/frontend/src/assets/post-images/${req.file.filename}`;
+  const file = `${req.file.filename}`;
   Post.create({
     title: title,
     author: author,
