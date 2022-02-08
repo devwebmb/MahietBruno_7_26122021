@@ -6,6 +6,7 @@
       </div>
       <div class="card-body">
         <h4 class="card-title">{{ post.title }}</h4>
+        <img :src="post.imgUrl" style="width: 300px" />
         <p class="card-text">
           {{ post.post }}
         </p>
@@ -36,10 +37,10 @@
         </button>
       </div>
     </div>
-    <div v-if="modify">
+    <div v-if="modify" id="modify-post">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
-          <label class="form-label mt-4">Modifier votre commentaire :</label>
+          <label class="form-label mt-4">Modifier votre post :</label>
           <textarea
             class="form-control"
             rows="3"
@@ -47,7 +48,7 @@
             v-model="modifyMessage"
           ></textarea>
           <button type="submit" class="btn btn-primary">
-            Modifier le commentaire
+            Modifier le post
           </button>
         </div>
       </form>
@@ -190,8 +191,6 @@ export default {
         )
         .then(() => {
           alert("Votre message a bien été modifié");
-          // this.$router.replace("/post");
-          //this.getOnePost();
           location.reload();
         });
     },

@@ -31,7 +31,7 @@ exports.addPost = (req, res, next) => {
     author: author,
     post: message,
     posterId: posterId,
-    imgUrl: file,
+    imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
   }).then((post) => {
     const message = "Votre mesage a été créé.";
     return res.status(201).json({ message, data: post });

@@ -135,11 +135,13 @@
   width: 85%;
   margin: auto;
 }
-.card-view #add-comment {
+.card-view #add-comment,
+.card-view #modify-post {
   max-width: 500px;
   margin: auto;
 }
-.card-view #add-comment textarea {
+.card-view #add-comment textarea,
+.card-view #modify-post textarea {
   margin-bottom: 3%;
 }
 @media screen and (max-width: 600px) {
