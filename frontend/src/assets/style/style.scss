@@ -166,9 +166,21 @@ $white: white;
   textarea {
     margin-bottom: 3%;
   }
+  button {
+    margin-top: 3%;
+  }
   @media screen and (max-width: 600px) {
     width: 95%;
     margin: auto;
+  }
+
+}
+
+//modifyPost
+#modify-post{
+  textarea {
+    margin: auto;
+    margin-bottom: 2%;
   }
 }
 

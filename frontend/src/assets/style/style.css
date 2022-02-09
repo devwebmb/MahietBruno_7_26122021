@@ -158,11 +158,19 @@
 #add-post textarea {
   margin-bottom: 3%;
 }
+#add-post button {
+  margin-top: 3%;
+}
 @media screen and (max-width: 600px) {
   #add-post {
     width: 95%;
     margin: auto;
   }
+}
+
+#modify-post textarea {
+  margin: auto;
+  margin-bottom: 2%;
 }
 
 #profile-view button {

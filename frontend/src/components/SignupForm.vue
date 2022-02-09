@@ -4,6 +4,7 @@
       <fieldset>
         <legend><strong>Inscription</strong></legend>
         <div class="form-group">
+          <div v-if="error" class="alert alert-danger">{{ error }}</div>
           <label for="email" class="form-label mt-4"
             ><strong>Adresse mail : </strong></label
           >
@@ -61,10 +62,12 @@ export default {
       email: "",
       pseudo: "",
       password: "",
+      error: false,
     };
   },
   methods: {
     signup() {
+      this.error = false;
       this.axios
         .post(
           "http://localhost:3000/api/user/signup",
@@ -103,6 +106,9 @@ export default {
               localStorage.setItem("token", user.data.token);
               this.$router.replace("/post");
             });
+        })
+        .catch((e) => {
+          this.error = e.response.data.message;
         });
     },
   },

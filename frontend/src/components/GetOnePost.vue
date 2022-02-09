@@ -1,5 +1,6 @@
 <template>
-  <div id="get-one-post" class="card-view">
+<div>
+  <div id="get-one-post" class="card-view" v-if="postView">
     <div class="card border-primary mb-3" style="max-width: 35rem">
       <div class="card-header">
         Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
@@ -13,7 +14,7 @@
         <div id="post-buttons">
           <button
             v-if="isPosterAuthor || this.isAdmin"
-            @click="modify = true"
+            @click="modify = true, postView = false"
             type="button"
             class="btn btn-primary"
           >
@@ -37,7 +38,7 @@
         </button>
       </div>
     </div>
-    <div v-if="modify" id="modify-post">
+     <!-- <div v-if="modify" id="modify-post">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
           <label class="form-label mt-4">Modifier votre post :</label>
@@ -50,9 +51,9 @@
           <button type="submit" class="btn btn-primary">
             Modifier le post
           </button>
-        </div>
+        </div> 
       </form>
-    </div>
+    </div> -->
     <div v-if="addComment" id="add-comment">
       <form @submit.prevent="postComment()">
         <div class="form-group">
@@ -96,15 +97,22 @@
       </div>
     </div>
   </div>
+  <ModifyPost v-if="modify" />
+  </div>
 </template>
 
 <script>
+import ModifyPost from '../components/ModifyPost.vue'
 export default {
   name: "GetOnePost",
+  components: {
+    ModifyPost
+  },
   data() {
     return {
       post: [],
       comments: [],
+      postView: true,
       isPosterAuthor: false,
       modify: false,
       modifyMessage: "",
@@ -117,6 +125,7 @@ export default {
       postId: this.$route.params.id,
     };
   },
+
   methods: {
     dateFormat(date) {
       const event = new Date(date);
@@ -191,7 +200,9 @@ export default {
         )
         .then(() => {
           alert("Votre message a bien été modifié");
-          location.reload();
+          this.modifyMessage = "";
+          this.modify = false;
+          this.getOnePost();
         });
     },
     postComment() {
@@ -213,8 +224,9 @@ export default {
         )
         .then(() => {
           alert("Votre commentaire a bien été ajouté");
-          //this.$router.replace("/post");
-          location.reload();
+          this.commentContent = "";
+          this.addComment = false;
+          this.getOnePost();
         });
     },
     deleteComment(commentId) {
@@ -227,8 +239,7 @@ export default {
         })
         .then(() => {
           alert("votre commentaire a bien été supprimé.");
-          //this.$router.replace(`/post`);
-          location.reload();
+          this.getOnePost();
         });
     },
   },
