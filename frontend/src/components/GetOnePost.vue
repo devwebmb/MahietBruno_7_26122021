@@ -1,117 +1,147 @@
 <template>
-<div>
-  <div id="get-one-post" class="card-view" v-if="postView">
-    <div class="card border-primary mb-3" style="max-width: 35rem">
-      <div class="card-header">
-        Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
-      </div>
-      <div class="card-body">
-        <h4 class="card-title">{{ post.title }}</h4>
-        <img :src="post.imgUrl" style="width: 300px" />
-        <p class="card-text">
-          {{ post.post }}
-        </p>
-        <div id="post-buttons">
+  <div>
+    <div id="get-one-post" class="card-view" v-if="postView">
+      <div class="card border-primary mb-3" style="max-width: 35rem">
+        <div class="card-header">
+          Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{ post.title }}</h4>
+          <img :src="post.imgUrl" style="width: 300px" />
+          <p class="card-text">
+            {{ post.post }}
+          </p>
+          <div id="post-buttons">
+            <button
+              v-if="isPosterAuthor || this.isAdmin"
+              @click="(modify = true), (postView = false)"
+              type="button"
+              class="btn btn-primary"
+            >
+              Modifier
+            </button>
+            <button
+              v-if="isPosterAuthor || this.isAdmin"
+              @click="deletePost()"
+              type="button"
+              class="btn btn-primary"
+            >
+              Supprimer
+            </button>
+          </div>
           <button
-            v-if="isPosterAuthor || this.isAdmin"
-            @click="modify = true, postView = false"
+            @click="addComment = true"
             type="button"
             class="btn btn-primary"
           >
-            Modifier
-          </button>
-          <button
-            v-if="isPosterAuthor || this.isAdmin"
-            @click="deletePost()"
-            type="button"
-            class="btn btn-primary"
-          >
-            Supprimer
+            Ajouter un commentaire
           </button>
         </div>
-        <button
-          @click="addComment = true"
-          type="button"
-          class="btn btn-primary"
-        >
-          Ajouter un commentaire
-        </button>
+      </div>
+
+      <div v-if="addComment" id="add-comment">
+        <form @submit.prevent="postComment()">
+          <div class="form-group">
+            <label class="form-label mt-4">Entrer votre commentaire :</label>
+            <textarea
+              class="form-control"
+              rows="3"
+              style="max-width: 35rem"
+              v-model="commentContent"
+              placeholder="Entrer ici votre commentaire"
+            ></textarea>
+            <button type="submit" class="btn btn-primary">
+              Ajouter le commentaire
+            </button>
+          </div>
+        </form>
+      </div>
+      <div
+        v-for="(comment, index) in comments"
+        :key="index"
+        class="comment-article"
+      >
+        <div class="card border-primary mb-3" style="max-width: 20rem">
+          <div class="card-header">
+            Commenté le {{ dateFormat(comment.createdAt) }} par
+            {{ comment.author }}
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              {{ comment.comment }}
+            </p>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              v-if="userId == comment.commenterId"
+              @click="deleteComment(comment.id)"
+            >
+              Supprimer le commentaire
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-     <!-- <div v-if="modify" id="modify-post">
+
+    <div id="modify-post" v-if="modify">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
-          <label class="form-label mt-4">Modifier votre post :</label>
-          <textarea
-            class="form-control"
-            rows="3"
-            style="max-width: 35rem"
-            v-model="modifyMessage"
-          ></textarea>
+          <div id="modify-image" v-if="displayImage">
+            <img :src="post.imgUrl" style="width: 150px" />
+            <img
+              src="../assets/images/trash.svg"
+              alt="Logo d'une poubelle"
+              id="trash-logo"
+              title="Supprimer l'image"
+              @click="(file = ''), (displayImage = false)"
+            />
+          </div>
+          <br />
+          <div class="form-group">
+            <label class="form-label mt-4"
+              >Choisir une autre image ou ajouter une image :</label
+            >
+            <input
+              class="form-control form-file"
+              type="file"
+              @change="handleFileUpload($event)"
+            />
+          </div>
+          <label class="form-label mt-4">Modifier votre post : </label>
+          <div id="modify-content">
+            <textarea
+              class="form-control"
+              rows="3"
+              style="max-width: 35rem"
+              v-model="modifyMessage"
+            ></textarea>
+            <img
+              src="../assets/images/eraser-solid.svg"
+              alt="Logo d'une poubelle"
+              @click="modifyMessage = ''"
+              title="Effacer le texte"
+            />
+          </div>
           <button type="submit" class="btn btn-primary">
             Modifier le post
           </button>
-        </div> 
-      </form>
-    </div> -->
-    <div v-if="addComment" id="add-comment">
-      <form @submit.prevent="postComment()">
-        <div class="form-group">
-          <label class="form-label mt-4">Entrer votre commentaire :</label>
-          <textarea
-            class="form-control"
-            rows="3"
-            style="max-width: 35rem"
-            v-model="commentContent"
-            placeholder="Entrer ici votre commentaire"
-          ></textarea>
-          <button type="submit" class="btn btn-primary">
-            Ajouter le commentaire
-          </button>
         </div>
       </form>
     </div>
-    <div
-      v-for="(comment, index) in comments"
-      :key="index"
-      class="comment-article"
-    >
-      <div class="card border-primary mb-3" style="max-width: 20rem">
-        <div class="card-header">
-          Commenté le {{ dateFormat(comment.createdAt) }} par
-          {{ comment.author }}
-        </div>
-        <div class="card-body">
-          <p class="card-text">
-            {{ comment.comment }}
-          </p>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            v-if="userId == comment.commenterId"
-            @click="deleteComment(comment.id)"
-          >
-            Supprimer le commentaire
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ModifyPost v-if="modify" />
   </div>
 </template>
 
 <script>
-import ModifyPost from '../components/ModifyPost.vue'
 export default {
   name: "GetOnePost",
-  components: {
-    ModifyPost
-  },
+
   data() {
     return {
       post: [],
+      postImgUrl: "",
       comments: [],
+      file: "",
+      displayImage: true,
       postView: true,
       isPosterAuthor: false,
       modify: false,
@@ -127,6 +157,9 @@ export default {
   },
 
   methods: {
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
     dateFormat(date) {
       const event = new Date(date);
       const options = {
@@ -148,6 +181,8 @@ export default {
         })
         .then((posts) => {
           this.post = posts.data.data;
+          this.modifyMessage = posts.data.data.post;
+          this.postImgUrl = posts.data.data.imgUrl;
           if (this.userId == this.post.posterId) {
             this.isPosterAuthor = true;
           }
@@ -163,6 +198,7 @@ export default {
           this.comments = comments.data.comments;
         });
     },
+
     deletePost() {
       this.axios
         .delete(`http://localhost:3000/api/post/${this.postId}`, {
@@ -185,23 +221,22 @@ export default {
         });
     },
     modifyPost() {
+      let formData = new FormData();
+      formData.append("imgUrl", this.file);
+      formData.append("post", this.modifyMessage);
       this.axios
-        .put(
-          `http://localhost:3000/api/post/${this.postId}`,
-          {
-            post: this.modifyMessage,
+        .put(`http://localhost:3000/api/post/${this.postId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ` + localStorage.getItem("token"),
-            },
-          }
-        )
+        })
         .then(() => {
           alert("Votre message a bien été modifié");
           this.modifyMessage = "";
           this.modify = false;
+          this.postView = true;
+          this.displayImage = true;
           this.getOnePost();
         });
     },

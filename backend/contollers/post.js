@@ -1,5 +1,5 @@
 const { Post } = require("../database/sequelize");
-// const fs = require("fs");
+const fs = require("fs");
 
 // récupérer tous les posts
 exports.getAllPosts = (req, res, next) => {
@@ -41,11 +41,19 @@ exports.addPost = (req, res, next) => {
 //Modifier un post
 exports.updatePost = (req, res, next) => {
   const id = parseInt(req.params.id);
-  Post.update(req.body, {
-    where: {
-      id: id,
+  const file = `${req.file.filename}`;
+  const post = req.body.post;
+  Post.update(
+    {
+      post: post,
+      imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
     },
-  }).then(() => {
+    {
+      where: {
+        id: id,
+      },
+    }
+  ).then(() => {
     Post.findByPk(id).then((post) => {
       const message = `Le post a bien été modifié.`;
       return res.status(200).json({ message, data: post });
@@ -57,9 +65,12 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const id = parseInt(req.params.id);
   Post.findByPk(id).then((post) => {
-    post.destroy().then(() => {
-      const message = "Le post a bien été supprimé.";
-      return res.status(200).json({ message });
+    const filename = post.imgUrl.split("/images")[1];
+    fs.unlink(`images/${filename}`, () => {
+      post.destroy().then(() => {
+        const message = "Le post a bien été supprimé.";
+        return res.status(200).json({ message });
+      });
     });
   });
 };

@@ -62,7 +62,7 @@ $white: white;
     .submit-btn {
       margin-top: 3%;
     }
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 650px) {
       margin: auto 5%;
     }
   }
@@ -94,7 +94,7 @@ $white: white;
         color: $white;
       }
     }
-    @media screen and (max-width: 575px) {
+    @media screen and (max-width: 650px) {
       max-width: 350px;
       width: 90%;
       margin: auto;
@@ -152,7 +152,7 @@ $white: white;
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 650px) {
     width: 95%;
     margin: auto;
   }
@@ -169,18 +169,59 @@ $white: white;
   button {
     margin-top: 3%;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 650px) {
     width: 95%;
     margin: auto;
   }
-
 }
 
 //modifyPost
-#modify-post{
+#modify-post {
   textarea {
     margin: auto;
-    margin-bottom: 2%;
+    padding-right: 40px;
+  }
+  button {
+    margin-top: 1%;
+  }
+  .form-file {
+    max-width: 500px;
+    margin: auto;
+  }
+  #modify-content {
+    position: relative;
+
+    img {
+      position: absolute;
+      right: 50%;
+      transform: translate(260px, 50%);
+      bottom: 50%;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  #modify-image {
+    width: 150px;
+    margin: auto;
+    position: relative;
+    #trash-logo {
+      position: absolute;
+      right: -32px;
+      top: 50%;
+      transform: translateY(-13px);
+      width: 26px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 350px;
+    margin: auto;
   }
 }
 

@@ -57,7 +57,7 @@
 .home .homeForm .submit-btn {
   margin-top: 3%;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .home .homeForm {
     margin: auto 5%;
   }
@@ -89,7 +89,7 @@
   background-color: #c85855;
   color: white;
 }
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 650px) {
   #navbar nav {
     max-width: 350px;
     width: 90%;
@@ -144,7 +144,7 @@
 .card-view #modify-post textarea {
   margin-bottom: 3%;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   .card-view {
     width: 95%;
     margin: auto;
@@ -161,7 +161,7 @@
 #add-post button {
   margin-top: 3%;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
   #add-post {
     width: 95%;
     margin: auto;
@@ -170,7 +170,47 @@
 
 #modify-post textarea {
   margin: auto;
-  margin-bottom: 2%;
+  padding-right: 40px;
+}
+#modify-post button {
+  margin-top: 1%;
+}
+#modify-post .form-file {
+  max-width: 500px;
+  margin: auto;
+}
+#modify-post #modify-content {
+  position: relative;
+}
+#modify-post #modify-content img {
+  position: absolute;
+  right: 50%;
+  transform: translate(260px, 50%);
+  bottom: 50%;
+}
+#modify-post #modify-content img:hover {
+  cursor: pointer;
+}
+#modify-post #modify-image {
+  width: 150px;
+  margin: auto;
+  position: relative;
+}
+#modify-post #modify-image #trash-logo {
+  position: absolute;
+  right: -32px;
+  top: 50%;
+  transform: translateY(-13px);
+  width: 26px;
+}
+#modify-post #modify-image #trash-logo:hover {
+  cursor: pointer;
+}
+@media screen and (max-width: 650px) {
+  #modify-post {
+    width: 350px;
+    margin: auto;
+  }
 }
 
 #profile-view button {
