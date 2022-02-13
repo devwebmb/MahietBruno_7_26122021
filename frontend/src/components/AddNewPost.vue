@@ -53,7 +53,9 @@ export default {
     },
     addPost() {
       let formData = new FormData();
-      formData.append("imgUrl", this.file);
+      if (this.file) {
+        formData.append("imgUrl", this.file);
+      }
       formData.append("title", this.title);
       formData.append("author", this.author);
       formData.append("post", this.message);

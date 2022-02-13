@@ -191,19 +191,19 @@
 #modify-post #modify-content img:hover {
   cursor: pointer;
 }
-#modify-post #modify-image {
+#modify-post .modify-image {
   width: 150px;
   margin: auto;
   position: relative;
 }
-#modify-post #modify-image #trash-logo {
+#modify-post .trash-logo {
   position: absolute;
   right: -32px;
   top: 50%;
   transform: translateY(-13px);
   width: 26px;
 }
-#modify-post #modify-image #trash-logo:hover {
+#modify-post .trash-logo:hover {
   cursor: pointer;
 }
 @media screen and (max-width: 650px) {

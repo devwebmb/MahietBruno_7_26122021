@@ -25,53 +25,98 @@ exports.addPost = (req, res, next) => {
   const author = req.body.author;
   const title = req.body.title;
   const posterId = req.body.posterId;
-  const file = `${req.file.filename}`;
-  Post.create({
-    title: title,
-    author: author,
-    post: message,
-    posterId: posterId,
-    imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
-  }).then((post) => {
-    const message = "Votre mesage a été créé.";
-    return res.status(201).json({ message, data: post });
-  });
+  if (req.file) {
+    const file = `${req.file.filename}`;
+    Post.create({
+      title: title,
+      author: author,
+      post: message,
+      posterId: posterId,
+      imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
+    }).then((post) => {
+      const message = "Votre mesage a été créé.";
+      return res.status(201).json({ message, data: post });
+    });
+  } else {
+    Post.create({
+      title: title,
+      author: author,
+      post: message,
+      posterId: posterId,
+    }).then((post) => {
+      const message = "Votre mesage a été créé.";
+      return res.status(201).json({ message, data: post });
+    });
+  }
 };
 
 //Modifier un post
 exports.updatePost = (req, res, next) => {
   const id = parseInt(req.params.id);
-  const file = `${req.file.filename}`;
   const post = req.body.post;
-  Post.update(
-    {
-      post: post,
-      imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
-    },
-    {
-      where: {
-        id: id,
-      },
+  Post.findByPk(id).then((post) => {
+    if (post.imgUrl) {
+      const filename = post.imgUrl.split("/images")[1];
+      fs.unlink(`images/${filename}`, () => {});
     }
-  ).then(() => {
-    Post.findByPk(id).then((post) => {
-      const message = `Le post a bien été modifié.`;
-      return res.status(200).json({ message, data: post });
-    });
   });
+
+  if (req.file) {
+    const file = `${req.file.filename}`;
+    Post.update(
+      {
+        post: post,
+        imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
+      },
+      {
+        where: {
+          id: id,
+        },
+      }
+    ).then(() => {
+      Post.findByPk(id).then((post) => {
+        const message = `Le post a bien été modifié.`;
+        return res.status(200).json({ message, data: post });
+      });
+    });
+  } else {
+    Post.update(
+      {
+        post: post,
+        imgUrl: "",
+      },
+      {
+        where: {
+          id: id,
+        },
+      }
+    ).then(() => {
+      Post.findByPk(id).then((post) => {
+        const message = `Le post a bien été modifié.`;
+        return res.status(200).json({ message, data: post });
+      });
+    });
+  }
 };
 
 //Supprimer un post
 exports.deletePost = (req, res, next) => {
   const id = parseInt(req.params.id);
   Post.findByPk(id).then((post) => {
-    const filename = post.imgUrl.split("/images")[1];
-    fs.unlink(`images/${filename}`, () => {
+    if (post.imgUrl) {
+      const filename = post.imgUrl.split("/images")[1];
+      fs.unlink(`images/${filename}`, () => {
+        post.destroy().then(() => {
+          const message = "Le post a bien été supprimé.";
+          return res.status(200).json({ message });
+        });
+      });
+    } else {
       post.destroy().then(() => {
         const message = "Le post a bien été supprimé.";
         return res.status(200).json({ message });
       });
-    });
+    }
   });
 };
 

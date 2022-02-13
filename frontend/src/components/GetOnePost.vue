@@ -86,14 +86,19 @@
     <div id="modify-post" v-if="modify">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
-          <div id="modify-image" v-if="displayImage">
-            <img :src="post.imgUrl" style="width: 150px" />
+          <div class="modify-image" v-if="imageDisplay">
+            <img
+              :src="post.imgUrl"
+              style="width: 150px"
+              v-if="post.imgUrl != ''"
+            />
             <img
               src="../assets/images/trash.svg"
               alt="Logo d'une poubelle"
-              id="trash-logo"
+              class="trash-logo"
               title="Supprimer l'image"
-              @click="(file = ''), (displayImage = false)"
+              @click="(file = ''), (imageDisplay = false)"
+              v-if="post.imgUrl != ''"
             />
           </div>
           <br />
@@ -106,6 +111,25 @@
               type="file"
               @change="handleFileUpload($event)"
             />
+            <label class="form-label mt-4" v-if="previewDisplay"
+              >Visualisation de l'image choisie :
+            </label>
+            <br />
+            <div class="modify-image" v-if="previewDisplay">
+              <img
+                :src="url"
+                v-if="url"
+                alt="Prévisualisation de l'image"
+                style="width: 150px"
+              />
+              <img
+                src="../assets/images/trash.svg"
+                alt="Logo d'une poubelle"
+                class="trash-logo"
+                title="Supprimer l'image choisie"
+                @click="(url = ''), (previewDisplay = false), (file = '')"
+              />
+            </div>
           </div>
           <label class="form-label mt-4">Modifier votre post : </label>
           <div id="modify-content">
@@ -117,7 +141,7 @@
             ></textarea>
             <img
               src="../assets/images/eraser-solid.svg"
-              alt="Logo d'une poubelle"
+              alt="Logo d'une gomme"
               @click="modifyMessage = ''"
               title="Effacer le texte"
             />
@@ -141,7 +165,9 @@ export default {
       postImgUrl: "",
       comments: [],
       file: "",
-      displayImage: true,
+      url: null,
+      imageDisplay: true,
+      previewDisplay: false,
       postView: true,
       isPosterAuthor: false,
       modify: false,
@@ -158,7 +184,9 @@ export default {
 
   methods: {
     handleFileUpload(event) {
+      this.previewDisplay = true;
       this.file = event.target.files[0];
+      this.url = URL.createObjectURL(this.file);
     },
     dateFormat(date) {
       const event = new Date(date);
@@ -236,7 +264,8 @@ export default {
           this.modifyMessage = "";
           this.modify = false;
           this.postView = true;
-          this.displayImage = true;
+          this.previewDisplay = false;
+          this.imageDisplay = true;
           this.getOnePost();
         });
     },

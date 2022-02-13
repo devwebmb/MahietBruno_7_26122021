@@ -202,23 +202,22 @@ $white: white;
       }
     }
   }
-  #modify-image {
+  .modify-image {
     width: 150px;
     margin: auto;
     position: relative;
-    #trash-logo {
-      position: absolute;
-      right: -32px;
-      top: 50%;
-      transform: translateY(-13px);
-      width: 26px;
+  }
+  .trash-logo {
+    position: absolute;
+    right: -32px;
+    top: 50%;
+    transform: translateY(-13px);
+    width: 26px;
 
-      &:hover {
-        cursor: pointer;
-      }
+    &:hover {
+      cursor: pointer;
     }
   }
-
   @media screen and (max-width: 650px) {
     width: 350px;
     margin: auto;
