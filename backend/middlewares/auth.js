@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
     if (error) {
       const message =
         "L'utilisateur n'est pas autorisé à accéder à cette ressource";
-      return res.status(401).json({ message, data: error });
+      return res.status(403).json({ message, data: error });
     }
 
     const userId = decodedToken.userId;

@@ -15,6 +15,7 @@
             class="form-control"
             placeholder="Entrer votre adresse mail"
             v-model="email"
+            @click="error = false"
             required
           />
         </div>
@@ -29,6 +30,7 @@
             class="form-control"
             placeholder="Entrer votre pseudo"
             v-model="pseudo"
+            @click="error = false"
             required
           />
         </div>
@@ -43,6 +45,7 @@
             class="form-control"
             placeholder="Choisissez un mot de passe"
             v-model="password"
+            @click="error = false"
             required
           />
         </div>
@@ -108,7 +111,7 @@ export default {
             });
         })
         .catch((e) => {
-          this.error = e.response.data.message;
+          this.error = e.response.data.message.replace("Validation error:", "");
         });
     },
   },
