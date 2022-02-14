@@ -2,12 +2,14 @@
   <div id="add-post">
     <form @submit.prevent="addPost()">
       <div class="form-group">
+        <div v-if="error" class="alert alert-danger">{{ error }}</div>
         <label class="form-label mt-4">Titre :</label>
         <input
           type="text"
           class="form-control"
           placeholder="Entrer votre titre"
           v-model="title"
+          @click="error = false"
         />
         <label class="form-label mt-4">Message : </label>
         <textarea
@@ -16,6 +18,7 @@
           style="max-width: 35rem"
           v-model="message"
           placeholder="Entrer ici votre message"
+          @click="error = false"
         ></textarea>
         <div class="form-group">
           <label for="formFile" class="form-label mt-4">Image :</label>
@@ -44,6 +47,7 @@ export default {
       file: "",
       author: localStorage.getItem("pseudo"),
       posterId: localStorage.getItem("id"),
+      error: false,
     };
   },
   methods: {
@@ -52,6 +56,7 @@ export default {
       console.log(this.file);
     },
     addPost() {
+      this.error = false;
       let formData = new FormData();
       if (this.file) {
         formData.append("imgUrl", this.file);
@@ -71,6 +76,11 @@ export default {
         .then(() => {
           alert("Votre mesage a été ajouté.");
           this.$router.replace("/post");
+        })
+        .catch((e) => {
+          this.error = e.response.data.message
+            .replace("Validation error:", "")
+            .split(",")[0];
         });
     },
   },

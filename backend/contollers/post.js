@@ -14,7 +14,7 @@ exports.getAllPosts = (req, res, next) => {
     .catch((error) => {
       const message =
         "La récupération de tous les posts a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -25,7 +25,7 @@ exports.getOnePost = (req, res, next) => {
       if (post === null) {
         const message =
           "le post demandé n'existe pas. Réessayer avec un autre identifiant de post.";
-        res.status(404).json({ message });
+        return res.status(404).json({ message });
       }
       const message = "Voici le post choisi.";
       return res.status(200).json({ message, data: post });
@@ -33,7 +33,7 @@ exports.getOnePost = (req, res, next) => {
     .catch((error) => {
       const message =
         "La récupération du post a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -58,11 +58,11 @@ exports.addPost = (req, res, next) => {
       })
       .catch((error) => {
         if (error instanceof ValidationError) {
-          res.status(400).json({ message: error.message, data: error });
+          return res.status(400).json({ message: error.message, data: error });
         }
         const message =
           "L'ajout du post a échoué, veuillez réessayer dans quelques instants.";
-        res.status(500).json({ message, data: error });
+        return res.status(500).json({ message, data: error });
       });
   } else {
     Post.create({
@@ -77,11 +77,11 @@ exports.addPost = (req, res, next) => {
       })
       .catch((error) => {
         if (error instanceof ValidationError) {
-          res.status(400).json({ message: error.message, data: error });
+          return res.status(400).json({ message: error.message, data: error });
         }
         const message =
           "L'ajout du post a échoué, veuillez réessayer dans quelques instants.";
-        res.status(500).json({ message, data: error });
+        return res.status(500).json({ message, data: error });
       });
   }
 };
@@ -95,7 +95,7 @@ exports.updatePost = (req, res, next) => {
       if (post === null) {
         const message =
           "le post demandé n'existe pas, veuilez réessayer avec un autre identifiant.";
-        res.status(404).json({ message });
+        return res.status(404).json({ message });
       }
       if (post.imgUrl) {
         const filename = post.imgUrl.split("/images")[1];
@@ -105,7 +105,7 @@ exports.updatePost = (req, res, next) => {
     .catch((error) => {
       const message =
         "La modification du post a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
   if (req.file) {
     const file = `${req.file.filename}`;
@@ -129,16 +129,16 @@ exports.updatePost = (req, res, next) => {
           .catch((error) => {
             const message =
               "La modification du post a échoué, veuillez réessayer dans quelques instants.";
-            res.status(500).json({ message, data: error });
+            return res.status(500).json({ message, data: error });
           });
       })
       .catch((error) => {
         if (error instanceof ValidationError) {
-          res.status(400).json({ message: error.message, data: error });
+          return res.status(400).json({ message: error.message, data: error });
         }
         const message =
           "La modification du post a échoué, veuillez réessayer dans quelques instants.";
-        res.status(500).json({ message, data: error });
+        return res.status(500).json({ message, data: error });
       });
   } else {
     Post.update(
@@ -160,11 +160,11 @@ exports.updatePost = (req, res, next) => {
       })
       .catch((error) => {
         if (error instanceof ValidationError) {
-          res.status(400).json({ message: error.message, data: error });
+          return res.status(400).json({ message: error.message, data: error });
         }
         const message =
           "La modification du post a échoué, veuillez réessayer dans quelques instants.";
-        res.status(500).json({ message, data: error });
+        return res.status(500).json({ message, data: error });
       });
   }
 };
@@ -186,7 +186,7 @@ exports.deletePost = (req, res, next) => {
             .catch((error) => {
               const message =
                 "La suppression du post a échoué, veuillez réessayer dans quelques instants.";
-              res.status(500).json({ message, data: error });
+              return res.status(500).json({ message, data: error });
             });
         });
       } else {
@@ -199,14 +199,14 @@ exports.deletePost = (req, res, next) => {
           .catch((error) => {
             const message =
               "La suppression du post a échoué, veuillez réessayer dans quelques instants.";
-            res.status(500).json({ message, data: error });
+            return res.status(500).json({ message, data: error });
           });
       }
     })
     .catch((error) => {
       const message =
         "La suppression du post a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -221,6 +221,6 @@ exports.deleteUserPosts = (req, res, next) => {
     .catch((error) => {
       const message =
         "La suppression des posts de l'utilisateur a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };

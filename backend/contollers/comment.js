@@ -10,11 +10,11 @@ exports.addComment = (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof ValidationError) {
-        res.status(400).json({ message: error.message, data: error });
+        return res.status(400).json({ message: error.message, data: error });
       }
       const message =
         "L'ajout du commentaire a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -28,7 +28,7 @@ exports.getAllComments = (req, res, next) => {
     .catch((error) => {
       const message =
         "La récupération de tous les commentaires a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -42,12 +42,12 @@ exports.getPostComments = (req, res, next) => {
     order: [["createdAt", "DESC"]],
   })
     .then((comments) => {
-      res.status(200).json({ comments });
+      return res.status(200).json({ comments });
     })
     .catch((error) => {
       const message =
         "La récupération de tous les commentaires du post a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -65,13 +65,13 @@ exports.deleteComment = (req, res, next) => {
         .catch((error) => {
           const message =
             "La suppression du commentaire a échoué, veuillez réessayer dans quelques instants.";
-          res.status(500).json({ message, data: error });
+          return res.status(500).json({ message, data: error });
         });
     })
     .catch((error) => {
       const message =
         "La suppression du commentaire a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -86,7 +86,7 @@ exports.deletePostComments = (req, res, next) => {
     .catch((error) => {
       const message =
         "La suppression de tous les commentaires du post a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -101,6 +101,6 @@ exports.deleteUserComments = (req, res, next) => {
     .catch((error) => {
       const message =
         "La suppression des commentaires de l'utilisateur supprimé a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };

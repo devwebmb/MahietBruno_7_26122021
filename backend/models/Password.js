@@ -1,25 +1,26 @@
+const { is } = require("express/lib/request");
 const passwordValidator = require("password-validator");
 
-// Create a schema
 const passwordSchema = new passwordValidator();
 
-// Add properties to it
 passwordSchema
   .is()
-  .min(8) // Minimum length 8
+  .min(8, "Votre mot de passe doit comporter entre 8 et 100 caractères.") // 8 caractères min
   .is()
-  .max(100) // Maximum length 100
+  .max(30) // 100 caractères max
   .has()
-  .uppercase() // Must have uppercase letters
+  .uppercase() // une majuscule
   .has()
-  .lowercase() // Must have lowercase letters
+  .lowercase() // une minuscile
   .has()
-  .digits(2) // Must have at least 2 digits
+  .digits() // 1 chiffre
   .has()
   .not()
-  .spaces() // Should not have spaces
+  .spaces() // pas d'espace
   .is()
   .not()
-  .oneOf(["Passw0rd", "Password123"]); // Blacklist these values
+  .oneOf(["Passw0rd", "Password123", "DROP", "DELETE", "UPDATE"]) // termes interdits, faille de sécurité
+  .is()
+  .not([/^[^<>{}()=+,:&$#"'\(\)\_\-\[\]!?§\/]+$/g]);
 
 module.exports = passwordSchema;

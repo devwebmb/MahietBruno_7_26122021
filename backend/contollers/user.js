@@ -27,7 +27,7 @@ exports.signup = (req, res, next) => {
         }
         const message =
           "L'utilisateur n'a pas pu être créé, veuillez rééssayer dans un instant.";
-        res.status(500).json({ message, data: error });
+        return res.status(500).json({ message, data: error });
       });
   });
 };
@@ -73,7 +73,7 @@ exports.getAllUsers = (req, res, next) => {
     .catch((error) => {
       const message =
         "La récupération de tous les utilisateurs a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -96,7 +96,7 @@ exports.getOneUser = (req, res, next) => {
     .catch((error) => {
       const message =
         "La récupération de l'utilisateur a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -109,7 +109,9 @@ exports.updateUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        return res.status(400).json({ err: "id inconnu" });
+        const message =
+          "L'utilisateur demandé n'existe pas, veuillez réessayer avec un autre identifiant.";
+        return res.status(404).json({ message });
       }
       bcrypt.hash(req.body.password, 10).then((hash) => {
         user
@@ -124,14 +126,14 @@ exports.updateUser = (req, res, next) => {
           .catch((error) => {
             const message =
               "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
-            res.status(500).json({ message, data: error });
+            return res.status(500).json({ message, data: error });
           });
       });
     })
     .catch((error) => {
       const message =
         "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };
 
@@ -145,7 +147,9 @@ exports.deleteUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        return res.status(400).json({ err: "id inconnu" });
+        const message =
+          "L'utilisateur demandé n'existe pas, veuillez réessayer avec un autre identifiant.";
+        return res.status(404).json({ message });
       }
       user.destroy().then(() => {
         Post.destroy({ where: { posterId: req.params.id } })
@@ -165,13 +169,13 @@ exports.deleteUser = (req, res, next) => {
           .catch((error) => {
             const message =
               "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
-            res.status(500).json({ message, data: error });
+            return res.status(500).json({ message, data: error });
           });
       });
     })
     .catch((error) => {
       const message =
         "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
+      return res.status(500).json({ message, data: error });
     });
 };

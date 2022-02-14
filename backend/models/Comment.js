@@ -3,6 +3,13 @@ module.exports = (sequelize, DataTypes) => {
     comment: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notNull: { msg: "Veuillez entrer une adresse mail." },
+        is: {
+          args: /^[^<>{}=+&$#\_\-\[\]§\/]+$/g,
+          msg: "Vos champs commentaire ne doit pas contenir certains caractères spéciaux (<>{}[]=+$&#_).",
+        },
+      },
     },
     author: {
       type: DataTypes.STRING,

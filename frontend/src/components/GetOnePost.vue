@@ -42,6 +42,7 @@
       <div v-if="addComment" id="add-comment">
         <form @submit.prevent="postComment()">
           <div class="form-group">
+            <div v-if="error" class="alert alert-danger">{{ error }}</div>
             <label class="form-label mt-4">Entrer votre commentaire :</label>
             <textarea
               class="form-control"
@@ -49,6 +50,7 @@
               style="max-width: 35rem"
               v-model="commentContent"
               placeholder="Entrer ici votre commentaire"
+              @click="error = false"
             ></textarea>
             <button type="submit" class="btn btn-primary">
               Ajouter le commentaire
@@ -86,6 +88,7 @@
     <div id="modify-post" v-if="modify">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
+          <div v-if="error" class="alert alert-danger">{{ error }}</div>
           <div class="modify-image" v-if="imageDisplay">
             <img
               :src="post.imgUrl"
@@ -138,6 +141,7 @@
               rows="3"
               style="max-width: 35rem"
               v-model="modifyMessage"
+              @click="error = false"
             ></textarea>
             <img
               src="../assets/images/eraser-solid.svg"
@@ -168,6 +172,7 @@ export default {
       url: null,
       imageDisplay: true,
       previewDisplay: false,
+      error: false,
       postView: true,
       isPosterAuthor: false,
       modify: false,
@@ -249,6 +254,7 @@ export default {
         });
     },
     modifyPost() {
+      this.error = false;
       let formData = new FormData();
       formData.append("imgUrl", this.file);
       formData.append("post", this.modifyMessage);
@@ -267,9 +273,15 @@ export default {
           this.previewDisplay = false;
           this.imageDisplay = true;
           this.getOnePost();
+        })
+        .catch((e) => {
+          this.error = e.response.data.message
+            .replace("Validation error:", "")
+            .split(",")[0];
         });
     },
     postComment() {
+      this.error = false;
       this.axios
         .post(
           "http://localhost:3000/api/comment",
@@ -291,6 +303,11 @@ export default {
           this.commentContent = "";
           this.addComment = false;
           this.getOnePost();
+        })
+        .catch((e) => {
+          this.error = e.response.data.message
+            .replace("Validation error:", "")
+            .split(",")[0];
         });
     },
     deleteComment(commentId) {

@@ -86,7 +86,6 @@ export default {
           }
         )
         .then(() => {
-          alert("Votre inscription est validé.");
           this.axios
             .post(
               "http://localhost:3000/api/user/login",
@@ -107,6 +106,7 @@ export default {
               localStorage.setItem("id", user.data.data.id);
               localStorage.setItem("isAdmin", user.data.data.isAdmin);
               localStorage.setItem("token", user.data.token);
+              alert("Votre inscription est validé.");
               this.$router.replace("/post");
             });
         })
