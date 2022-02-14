@@ -8,9 +8,31 @@
         <div class="card-body">
           <h4 class="card-title">{{ post.title }}</h4>
           <img :src="post.imgUrl" style="width: 300px" />
-          <p class="card-text">
+          <p class="card-text" id="card-all-posts">
             {{ post.post }}
           </p>
+          <p class="card-text" v-if="upDisplay">
+            {{ post.post }}
+          </p>
+          <div v-if="downDisplay" class="arrow">
+            <img
+              src="../assets/images/arrow-down-solid.svg"
+              alt="Image d'une flêche vers le bas"
+              title="Afficher la suite du texte."
+              @click="(downDisplay = false), (upDisplay = true)"
+              class="arrow-hover"
+            />
+          </div>
+
+          <div v-if="upDisplay" class="arrow">
+            <img
+              src="../assets/images/arrow-up-solid.svg"
+              alt="Image d'une flêche vers le bas"
+              title="Cacher le texte."
+              @click="(downDisplay = true), (upDisplay = false)"
+              class="arrow-hover"
+            />
+          </div>
           <div id="post-buttons">
             <button
               v-if="isPosterAuthor || this.isAdmin"
@@ -172,6 +194,8 @@ export default {
       url: null,
       imageDisplay: true,
       previewDisplay: false,
+      downDisplay: false,
+      upDisplay: true,
       error: false,
       postView: true,
       isPosterAuthor: false,

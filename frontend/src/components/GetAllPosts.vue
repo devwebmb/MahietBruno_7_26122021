@@ -4,20 +4,43 @@
       <button type="button" class="btn btn-primary">Nouveau message</button>
     </router-link>
     <div v-for="(post, index) in posts" :key="index">
-      <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
-        <div class="card border-primary mb-3" style="max-width: 25rem">
-          <div class="card-header">
-            Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
-          </div>
-          <div class="card-body">
+      <div class="card border-primary mb-3" style="max-width: 35rem">
+        <div class="card-header">
+          Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
+        </div>
+        <div class="card-body">
+          <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
             <h4 class="card-title">{{ post.title }}</h4>
             <img :src="post.imgUrl" style="width: 300px" />
-            <p class="card-text">
+            <p class="card-text" id="card-all-posts">
               {{ post.post }}
             </p>
+            <p class="card-text" v-if="upDisplay">
+              {{ post.post }}
+            </p>
+          </router-link>
+
+          <div v-if="downDisplay">
+            <img
+              src="../assets/images/arrow-down-solid.svg"
+              alt="Image d'une flêche vers le bas"
+              title="Afficher la suite du texte."
+              @click="(downDisplay = false), (upDisplay = true)"
+              class="arrow-hover"
+            />
+          </div>
+
+          <div v-if="upDisplay">
+            <img
+              src="../assets/images/arrow-up-solid.svg"
+              alt="Image d'une flêche vers le bas"
+              title="Cacher le texte."
+              @click="(downDisplay = true), (upDisplay = false)"
+              class="arrow-hover"
+            />
           </div>
         </div>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +51,8 @@ export default {
   data() {
     return {
       posts: [],
+      downDisplay: true,
+      upDisplay: false,
     };
   },
   methods: {
@@ -39,6 +64,8 @@ export default {
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
+        downDisplay: true,
+        upDisplay: false,
       };
       return event.toLocaleDateString("fr-FR", options);
     },

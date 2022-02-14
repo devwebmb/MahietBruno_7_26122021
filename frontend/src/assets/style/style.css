@@ -98,6 +98,15 @@
   }
 }
 
+#get-one-post .arrow {
+  border-bottom: solid 1px #eb6864;
+  padding: 2%;
+}
+
+.card-view {
+  max-width: 35rem;
+  margin: auto;
+}
 .card-view button {
   border-radius: 25px;
   transition: 0.5s;
@@ -125,15 +134,23 @@
   text-decoration: underline;
   padding-top: 2%;
 }
-.card-view p {
-  border-bottom: 1px solid #eb6864;
-  padding-bottom: 2%;
+.card-view .card-text {
+  margin-bottom: 0;
+  padding: 2%;
+  text-align: left;
+}
+.card-view .arrow-hover:hover {
+  cursor: pointer;
+}
+.card-view #card-all-posts {
+  overflow: hidden;
+  max-height: 5.2em;
 }
 .card-view #post-buttons {
   display: flex;
   justify-content: space-around;
   width: 85%;
-  margin: auto;
+  margin: 2% auto auto auto;
 }
 .card-view #add-comment,
 .card-view #modify-post {
@@ -223,6 +240,14 @@
 #profile-view button:hover {
   transform: scale(1.1);
   color: white;
+}
+
+#user-posts .card .arrow {
+  border-bottom: solid 1px #eb6864;
+  padding-bottom: 2%;
+}
+#user-posts .card button {
+  margin: 2% auto;
 }
 
 /*!

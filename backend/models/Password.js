@@ -5,7 +5,7 @@ const passwordSchema = new passwordValidator();
 
 passwordSchema
   .is()
-  .min(8, "Votre mot de passe doit comporter entre 8 et 100 caractères.") // 8 caractères min
+  .min(8) // 8 caractères min
   .is()
   .max(30) // 100 caractères max
   .has()
@@ -19,8 +19,8 @@ passwordSchema
   .spaces() // pas d'espace
   .is()
   .not()
-  .oneOf(["Passw0rd", "Password123", "DROP", "DELETE", "UPDATE"]) // termes interdits, faille de sécurité
+  .oneOf(["Passw0rd", "Password123"]) // termes interdits, faille de sécurité
   .is()
-  .not([/^[^<>{}()=+,:&$#"'\(\)\_\-\[\]!?§\/]+$/g]);
+  .not([/^[^<>{}()=+]+$/g]);
 
 module.exports = passwordSchema;

@@ -1,19 +1,46 @@
 <template>
   <div id="user-posts" class="card-view">
     <div v-for="post in posts" :key="post.id">
-      <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
-        <div class="card border-primary mb-3" style="max-width: 25rem">
-          <div class="card-header">
-            Posté le {{ dateFormat(post.createdAt) }}
-          </div>
-          <div class="card-body">
+      <div class="card border-primary mb-3" style="max-width: 35rem">
+        <div class="card-header">Posté le {{ dateFormat(post.createdAt) }}</div>
+        <div class="card-body">
+          <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
             <h4 class="card-title">{{ post.title }}</h4>
-            <p class="card-text">
+            <p class="card-text" id="card-all-posts">
               {{ post.post }}
             </p>
+            <p class="card-text" v-if="upDisplay">
+              {{ post.post }}
+            </p>
+          </router-link>
+          <div v-if="downDisplay" class="arrow">
+            <img
+              src="../assets/images/arrow-down-solid.svg"
+              alt="Image d'une flêche vers le bas"
+              title="Afficher la suite du texte."
+              @click="(downDisplay = false), (upDisplay = true)"
+              class="arrow-hover"
+            />
+          </div>
+
+          <div v-if="upDisplay" class="arrow">
+            <img
+              src="../assets/images/arrow-up-solid.svg"
+              alt="Image d'une flêche vers le bas"
+              title="Cacher le texte."
+              @click="(downDisplay = true), (upDisplay = false)"
+              class="arrow-hover"
+            />
           </div>
         </div>
-      </router-link>
+        <button
+          @click="deletePost(post.id)"
+          type="button"
+          class="btn btn-primary"
+        >
+          Supprimer
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -24,9 +51,28 @@ export default {
   data() {
     return {
       posts: [],
+      downDisplay: true,
+      upDisplay: false,
     };
   },
   methods: {
+    getUserposts() {
+      const userId = localStorage.getItem("id");
+      this.axios
+        .get("http://localhost:3000/api/post/", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then((post) => {
+          const allPosts = post.data.data;
+          const posterPosts = allPosts.filter(function (el) {
+            return el.posterId == userId;
+          });
+          this.posts = posterPosts;
+        });
+    },
     dateFormat(date) {
       const event = new Date(date);
       const options = {
@@ -38,23 +84,32 @@ export default {
       };
       return event.toLocaleDateString("fr-FR", options);
     },
+
+    deletePost(postId) {
+      const id = postId;
+      this.axios
+        .delete(`http://localhost:3000/api/post/` + id, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          this.axios
+            .delete(`http://localhost:3000/api/comment/post/` + id, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ` + localStorage.getItem("token"),
+              },
+            })
+            .then(() => {});
+          alert("Votre message est supprimé.");
+          this.getUserposts();
+        });
+    },
   },
   created() {
-    const userId = localStorage.getItem("id");
-    this.axios
-      .get("http://localhost:3000/api/post/", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      })
-      .then((post) => {
-        const allPosts = post.data.data;
-        const posterPosts = allPosts.filter(function (el) {
-          return el.posterId == userId;
-        });
-        this.posts = posterPosts;
-      });
+    this.getUserposts();
   },
 };
 </script>

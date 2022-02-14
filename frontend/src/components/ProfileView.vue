@@ -5,7 +5,12 @@
       <br />
       <span><strong>Email : </strong>{{ email }}</span>
     </div>
-    <button type="button" class="btn btn-primary" @click="deleteUser()">
+    <button
+      type="button"
+      class="btn btn-primary"
+      @click="deleteUser()"
+      v-if="isAdmin === 'false'"
+    >
       Supprimer le compte
     </button>
     <h2>Mes messages</h2>
@@ -19,6 +24,7 @@ export default {
       pseudo: localStorage.getItem("pseudo"),
       email: localStorage.getItem("email"),
       userId: localStorage.getItem("id"),
+      isAdmin: localStorage.getItem("isAdmin"),
     };
   },
   name: "ProfileView",

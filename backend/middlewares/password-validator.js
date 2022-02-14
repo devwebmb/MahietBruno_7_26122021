@@ -3,8 +3,10 @@ const passwordSchema = require("../models/Password");
 module.exports = (req, res, next) => {
   if (!passwordSchema.validate(req.body.password)) {
     const message =
-      "Votre mot de passe doit comporter au minimum 8 caractères et au maximum 30 caractères, dont une majuscule, une minuscule et  chiffre.";
-    res.status(400).json({ message });
+      "Votre mot de passe doit comporter au minimum 8 caractères et au maximum 30 caractères, dont une majuscule, une minuscule et  chiffre. Il ne doit pas comporter certains caractères spéciaux (<>{}()+=).";
+    res.status(400).json({
+      message,
+    });
   } else {
     next();
   }
