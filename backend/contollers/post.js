@@ -5,7 +5,7 @@ const fs = require("fs");
 // récupérer tous les posts
 exports.getAllPosts = (req, res, next) => {
   Post.findAll({
-    order: [["createdAt", "DESC"]],
+    order: [["updatedAt", "DESC"]],
   })
     .then((posts) => {
       const message = "Voici tous les posts.";
@@ -90,6 +90,7 @@ exports.addPost = (req, res, next) => {
 exports.updatePost = (req, res, next) => {
   const id = parseInt(req.params.id);
   const post = req.body.post;
+  const count = req.body.commentsCount;
   Post.findByPk(id)
     .then((post) => {
       if (post === null) {
@@ -111,6 +112,7 @@ exports.updatePost = (req, res, next) => {
     const file = `${req.file.filename}`;
     Post.update(
       {
+        commentsCount: count,
         post: post,
         imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
       },
@@ -143,6 +145,7 @@ exports.updatePost = (req, res, next) => {
   } else {
     Post.update(
       {
+        commentsCount: count,
         post: post,
         imgUrl: "",
       },

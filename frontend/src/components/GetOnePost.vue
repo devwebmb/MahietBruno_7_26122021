@@ -3,12 +3,27 @@
     <div id="get-one-post" class="card-view" v-if="postView">
       <div class="card border-primary mb-3" style="max-width: 35rem">
         <div class="card-header">
-          Posté le {{ dateFormat(post.createdAt) }} par {{ post.author }}
+          <span
+            >Posté le {{ dateFormat(post.createdAt) }} par
+            {{ post.author }}</span
+          >
+          <br />
+          <span v-if="post.createdAt !== post.updatedAt">
+            Modifié le {{ dateFormat(post.updatedAt) }}
+          </span>
+          <br />
+          <span v-if="post.commentsCount > 1"
+            ><strong>{{ post.commentsCount }} commentaires</strong></span
+          >
+          <span v-if="post.commentsCount <= 1"
+            ><strong>{{ post.commentsCount }} commentaire</strong></span
+          >
         </div>
+
         <div class="card-body">
           <h4 class="card-title">{{ post.title }}</h4>
-          <img :src="post.imgUrl" style="width: 300px" />
-          <p class="card-text" id="card-all-posts">
+          <img :src="post.imgUrl" class="post-image" />
+          <p class="card-text" id="card-all-posts" v-if="downDisplay">
             {{ post.post }}
           </p>
           <p class="card-text" v-if="upDisplay">
@@ -58,6 +73,7 @@
           >
             Ajouter un commentaire
           </button>
+          <br />
         </div>
       </div>
 
@@ -202,6 +218,7 @@ export default {
       modify: false,
       modifyMessage: "",
       addComment: false,
+      commentsCount: 0,
       commentContent: "",
       author: localStorage.getItem("pseudo"),
       commenterId: localStorage.getItem("id"),
@@ -240,6 +257,7 @@ export default {
           this.post = posts.data.data;
           this.modifyMessage = posts.data.data.post;
           this.postImgUrl = posts.data.data.imgUrl;
+          this.commentsCount = posts.data.data.commentsCount;
           if (this.userId == this.post.posterId) {
             this.isPosterAuthor = true;
           }
@@ -304,8 +322,11 @@ export default {
             .split(",")[0];
         });
     },
+
     postComment() {
       this.error = false;
+      this.commentsCount++;
+      const count = this.commentsCount;
       this.axios
         .post(
           "http://localhost:3000/api/comment",
@@ -323,10 +344,21 @@ export default {
           }
         )
         .then(() => {
-          alert("Votre commentaire a bien été ajouté");
-          this.commentContent = "";
-          this.addComment = false;
-          this.getOnePost();
+          let formData = new FormData();
+          formData.append("commentsCount", count);
+          this.axios
+            .put(`http://localhost:3000/api/post/${this.postId}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ` + localStorage.getItem("token"),
+              },
+            })
+            .then(() => {
+              alert("Votre commentaire a bien été ajouté");
+              this.commentContent = "";
+              this.addComment = false;
+              this.getOnePost();
+            });
         })
         .catch((e) => {
           this.error = e.response.data.message
@@ -334,7 +366,10 @@ export default {
             .split(",")[0];
         });
     },
+
     deleteComment(commentId) {
+      this.commentsCount--;
+      const count = this.commentsCount;
       this.axios
         .delete(`http://localhost:3000/api/comment/${commentId}`, {
           headers: {
@@ -343,8 +378,19 @@ export default {
           },
         })
         .then(() => {
-          alert("votre commentaire a bien été supprimé.");
-          this.getOnePost();
+          let formData = new FormData();
+          formData.append("commentsCount", count);
+          this.axios
+            .put(`http://localhost:3000/api/post/${this.postId}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ` + localStorage.getItem("token"),
+              },
+            })
+            .then(() => {
+              alert("votre commentaire a bien été supprimé.");
+              this.getOnePost();
+            });
         });
     },
   },

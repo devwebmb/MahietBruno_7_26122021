@@ -124,6 +124,16 @@ exports.updateUser = (req, res, next) => {
             res.status(201).json(user);
           })
           .catch((error) => {
+            if (error instanceof ValidationError) {
+              return res
+                .status(400)
+                .json({ message: error.message, data: error });
+            }
+            if (error instanceof UniqueConstraintError) {
+              return res
+                .status(400)
+                .json({ message: error.message, data: error });
+            }
             const message =
               "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
             return res.status(500).json({ message, data: error });
@@ -151,31 +161,21 @@ exports.deleteUser = (req, res, next) => {
           "L'utilisateur demandé n'existe pas, veuillez réessayer avec un autre identifiant.";
         return res.status(404).json({ message });
       }
-      user.destroy().then(() => {
-        Post.destroy({ where: { posterId: req.params.id } })
-          .then(() => {
-            Comment.destroy({ where: { commenterId: req.params.id } })
-              .then(() => {
-                const message =
-                  "L'utilisateur, ses posts et ses commentaires ont été supprimés";
-                return res.status(200).json({ message });
-              })
-              .catch((error) => {
-                const message =
-                  "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
-                res.status(500).json({ message, data: error });
-              });
-          })
-          .catch((error) => {
+      return user.destroy().then(() => {
+        return Post.destroy({ where: { posterId: req.params.id } }).then(() => {
+          return Comment.destroy({
+            where: { commenterId: req.params.id },
+          }).then(() => {
             const message =
-              "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
-            return res.status(500).json({ message, data: error });
+              "L'utilisateur, ses posts et ses commentaires ont été supprimés";
+            return res.status(200).json({ message });
           });
+        });
       });
     })
     .catch((error) => {
       const message =
-        "La modification d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
+        "La suppression d'un utilisateur a échoué, veuillez réessayer dans quelques instants.";
       return res.status(500).json({ message, data: error });
     });
 };

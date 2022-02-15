@@ -59,6 +59,13 @@ $white: white;
         color: $white;
       }
     }
+    @media screen and (max-width: 650px) {
+      button {
+        &:hover {
+          transform: none;
+        }
+      }
+    }
     .submit-btn {
       margin-top: 3%;
     }
@@ -95,15 +102,32 @@ $white: white;
       }
     }
     @media screen and (max-width: 650px) {
-      max-width: 350px;
-      width: 90%;
+      a {
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+    @media screen and (max-width: 575px) {
+      max-width: 275px;
+      width: 70%;
       margin: auto;
       margin-bottom: 3%;
     }
   }
 }
 //getAllPosts, getOnePost
+#all-posts-view {
+  .post-image {
+    width: 90%;
+    margin: auto;
+  }
+}
 #get-one-post {
+  .post-image {
+    width: 90%;
+    margin: auto;
+  }
   .arrow {
     border-bottom: solid 1px #eb6864;
     padding: 2%;
@@ -121,6 +145,13 @@ $white: white;
     &:hover {
       transform: scale(1.1);
       color: $white;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    button {
+      &:hover {
+        transform: none;
+      }
     }
   }
   .card {
@@ -239,6 +270,12 @@ $white: white;
   @media screen and (max-width: 650px) {
     width: 350px;
     margin: auto;
+
+    #modify-content {
+      img {
+        transform: translate(165px, 50%);
+      }
+    }
   }
 }
 
@@ -254,6 +291,13 @@ $white: white;
     &:hover {
       transform: scale(1.1);
       color: $white;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    button {
+      &:hover {
+        transform: none;
+      }
     }
   }
 }

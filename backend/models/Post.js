@@ -33,5 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     imgUrl: {
       type: DataTypes.STRING,
     },
+    commentsCount: {
+      type: DataTypes.STRING,
+      defaultValue: 0,
+    },
   });
 };

@@ -2,11 +2,17 @@
   <div id="user-posts" class="card-view">
     <div v-for="post in posts" :key="post.id">
       <div class="card border-primary mb-3" style="max-width: 35rem">
-        <div class="card-header">Posté le {{ dateFormat(post.createdAt) }}</div>
+        <div class="card-header">
+          <span>Posté le {{ dateFormat(post.createdAt) }}</span>
+          <br />
+          <span v-if="post.createdAt !== post.updatedAt"
+            >Modifié le {{ dateFormat(post.updatedAt) }}</span
+          >
+        </div>
         <div class="card-body">
           <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
             <h4 class="card-title">{{ post.title }}</h4>
-            <p class="card-text" id="card-all-posts">
+            <p class="card-text" id="card-all-posts" v-if="downDisplay">
               {{ post.post }}
             </p>
             <p class="card-text" v-if="upDisplay">
