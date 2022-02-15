@@ -159,6 +159,10 @@ $white: white;
   }
   .card-body {
     padding: 0;
+    p {
+      width: 90%;
+      margin: auto;
+    }
   }
   .card-header {
     background-color: $palePink;
@@ -192,21 +196,12 @@ $white: white;
     width: 85%;
     margin: 2% auto auto auto;
   }
-  #add-comment,
-  #modify-post {
-    max-width: 500px;
-    margin: auto;
-    textarea {
-      margin-bottom: 3%;
-    }
-  }
 
   @media screen and (max-width: 650px) {
     width: 95%;
     margin: auto;
   }
 }
-
 //addNewPost
 
 #add-post {
@@ -235,6 +230,11 @@ $white: white;
   }
   .form-file {
     max-width: 500px;
+    margin: auto;
+  }
+  .alert-danger {
+    max-width: 550px;
+    width: 90%;
     margin: auto;
   }
   #modify-content {
@@ -303,6 +303,11 @@ $white: white;
 }
 
 #user-posts {
+  .card-body {
+    .post-image {
+      width: 300px;
+    }
+  }
   .card {
     .arrow {
       border-bottom: solid 1px #eb6864;

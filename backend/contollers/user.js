@@ -4,7 +4,7 @@ const { Post } = require("../database/sequelize");
 const { Comment } = require("../database/sequelize");
 const { ValidationError, UniqueConstraintError } = require("sequelize");
 const jwt = require("jsonwebtoken");
-const privateKey = require("../middlewares/private_keys");
+require("dotenv").config();
 
 // inscription
 exports.signup = (req, res, next) => {
@@ -49,9 +49,13 @@ exports.login = (req, res, next) => {
           const message = "Le mot de passe est incorrect";
           return res.status(401).json({ message });
         }
-        const token = jwt.sign({ userId: user.id }, privateKey, {
-          expiresIn: "24h",
-        });
+        const token = jwt.sign(
+          { userId: user.id },
+          `${process.env.PRIVATE_KEY}`,
+          {
+            expiresIn: "24h",
+          }
+        );
         const message = "L'utilisateur a été connecté avec succès";
         return res.status(200).json({ message, data: user, token });
       });
@@ -163,13 +167,8 @@ exports.deleteUser = (req, res, next) => {
       }
       return user.destroy().then(() => {
         return Post.destroy({ where: { posterId: req.params.id } }).then(() => {
-          return Comment.destroy({
-            where: { commenterId: req.params.id },
-          }).then(() => {
-            const message =
-              "L'utilisateur, ses posts et ses commentaires ont été supprimés";
-            return res.status(200).json({ message });
-          });
+          const message = "L'utilisateur et ses posts ont été supprimés";
+          return res.status(200).json({ message });
         });
       });
     })

@@ -44,6 +44,7 @@ export default {
           localStorage.removeItem("email");
           localStorage.removeItem("isAdmin");
           localStorage.removeItem("id");
+          alert("Votre compte a été supprimé.");
           this.$router.replace("/");
         });
     },

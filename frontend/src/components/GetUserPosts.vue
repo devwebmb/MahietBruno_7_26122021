@@ -1,6 +1,35 @@
 <template>
   <div id="user-posts" class="card-view">
-    <div v-for="post in posts" :key="post.id">
+    <Post
+      v-for="post in posts"
+      :key="post.id"
+      :author="post.author"
+      :post="post.post"
+      :title="post.title"
+      :posterId="post.posterId"
+      :imgUrl="post.imgUrl"
+      :updatedAt="
+        new Date(post.updatedAt).toLocaleDateString('fr-FR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        })
+      "
+      :commentsCount="post.commentsCount"
+      :createdAt="
+        new Date(post.createdAt).toLocaleDateString('fr-FR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        })
+      "
+      :id="post.id"
+    ></Post>
+    <!-- <div v-for="post in posts" :key="post.id">
       <div class="card border-primary mb-3" style="max-width: 35rem">
         <div class="card-header">
           <span>Posté le {{ dateFormat(post.createdAt) }}</span>
@@ -47,18 +76,20 @@
           Supprimer
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import Post from "../components/Post.vue";
 export default {
   name: "GetUserPosts",
+  components: {
+    Post,
+  },
   data() {
     return {
       posts: [],
-      downDisplay: true,
-      upDisplay: false,
     };
   },
   methods: {
@@ -79,18 +110,6 @@ export default {
           this.posts = posterPosts;
         });
     },
-    dateFormat(date) {
-      const event = new Date(date);
-      const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      };
-      return event.toLocaleDateString("fr-FR", options);
-    },
-
     deletePost(postId) {
       const id = postId;
       this.axios

@@ -147,6 +147,10 @@
 .card-view .card-body {
   padding: 0;
 }
+.card-view .card-body p {
+  width: 90%;
+  margin: auto;
+}
 .card-view .card-header {
   background-color: #fcd4d4;
 }
@@ -175,15 +179,6 @@
   justify-content: space-around;
   width: 85%;
   margin: 2% auto auto auto;
-}
-.card-view #add-comment,
-.card-view #modify-post {
-  max-width: 500px;
-  margin: auto;
-}
-.card-view #add-comment textarea,
-.card-view #modify-post textarea {
-  margin-bottom: 3%;
 }
 @media screen and (max-width: 650px) {
   .card-view {
@@ -218,6 +213,11 @@
 }
 #modify-post .form-file {
   max-width: 500px;
+  margin: auto;
+}
+#modify-post .alert-danger {
+  max-width: 550px;
+  width: 90%;
   margin: auto;
 }
 #modify-post #modify-content {
@@ -274,6 +274,9 @@
   }
 }
 
+#user-posts .card-body .post-image {
+  width: 300px;
+}
 #user-posts .card .arrow {
   border-bottom: solid 1px #eb6864;
   padding-bottom: 2%;

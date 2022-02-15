@@ -32,10 +32,10 @@ const Comment = CommentModel(dataBase, DataTypes);
 
 const initDb = () => {
   return dataBase.sync({ force: true }).then(() => {
-    bcrypt.hash(`Admin?!94`, 10).then((hash) => {
+    bcrypt.hash(`${process.env.ADMIN_PASSWORD}`, 10).then((hash) => {
       User.create({
-        email: "admin@gmail.com",
-        pseudo: "admin",
+        email: `${process.env.ADMIN_EMAIL}`,
+        pseudo: `${process.env.ADMIN_PSEUDO}`,
         password: hash,
         isAdmin: true,
       }).then((user) => console.log(user.toJSON()));

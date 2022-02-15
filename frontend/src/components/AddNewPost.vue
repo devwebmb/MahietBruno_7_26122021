@@ -10,6 +10,7 @@
           placeholder="Entrer votre titre"
           v-model="title"
           @click="error = false"
+          required
         />
         <label class="form-label mt-4">Message : </label>
         <textarea
@@ -19,6 +20,7 @@
           v-model="message"
           placeholder="Entrer ici votre message"
           @click="error = false"
+          required
         ></textarea>
         <div class="form-group">
           <label for="formFile" class="form-label mt-4">Image :</label>

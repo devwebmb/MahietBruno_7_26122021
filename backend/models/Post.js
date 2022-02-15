@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: { msg: "Veuillez entrer une adresse mail." },
+        notNull: { msg: "Veuillez entrer un titre au post." },
         is: {
           args: /^[^<>{}()=+&$#\_\[\]§\/]+$/g,
           msg: "Votre champs titre  ne doit pas contenir certains caractères spéciaux (<>{}[]=+$&#_) .",
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notNull: { msg: "Veuillez entrer une adresse mail." },
+        notNull: { msg: "Veuillez entrer du contenu au post." },
         is: {
           args: /^[^<>{}=+&$#\_\-\[\]§\/]+$/g,
           msg: "Vos champs message ne doit pas contenir certains caractères spéciaux (<>{}[]=+$&#_).",

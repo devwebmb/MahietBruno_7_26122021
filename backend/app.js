@@ -7,6 +7,7 @@ const commentsRoutes = require("./routes/comment.js");
 const path = require("path");
 const app = express();
 const sequelize = require("./database/sequelize");
+require("dotenv").config();
 
 app.use(helmet());
 

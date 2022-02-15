@@ -48,21 +48,15 @@
               class="arrow-hover"
             />
           </div>
-          <div id="post-buttons">
+          <div id="post-buttons" v-if="isPosterAuthor">
             <button
-              v-if="isPosterAuthor || this.isAdmin"
               @click="(modify = true), (postView = false)"
               type="button"
               class="btn btn-primary"
             >
               Modifier
             </button>
-            <button
-              v-if="isPosterAuthor || this.isAdmin"
-              @click="deletePost()"
-              type="button"
-              class="btn btn-primary"
-            >
+            <button @click="deletePost()" type="button" class="btn btn-primary">
               Supprimer
             </button>
           </div>
@@ -89,6 +83,7 @@
               v-model="commentContent"
               placeholder="Entrer ici votre commentaire"
               @click="error = false"
+              required
             ></textarea>
             <button type="submit" class="btn btn-primary">
               Ajouter le commentaire
@@ -131,15 +126,15 @@
             <img
               :src="post.imgUrl"
               style="width: 150px"
-              v-if="post.imgUrl != ''"
+              v-if="post.imgUrl !== ''"
             />
             <img
               src="../assets/images/trash.svg"
               alt="Logo d'une poubelle"
               class="trash-logo"
               title="Supprimer l'image"
-              @click="(file = ''), (imageDisplay = false)"
-              v-if="post.imgUrl != ''"
+              @click="(file = ''), (imageDisplay = false), (error = false)"
+              v-if="post.imgUrl !== ''"
             />
           </div>
           <br />
@@ -151,6 +146,7 @@
               class="form-control form-file"
               type="file"
               @change="handleFileUpload($event)"
+              @click="error = false"
             />
             <label class="form-label mt-4" v-if="previewDisplay"
               >Visualisation de l'image choisie :
@@ -214,12 +210,13 @@ export default {
       upDisplay: true,
       error: false,
       postView: true,
-      isPosterAuthor: false,
+      isPosterAuthor: "",
       modify: false,
       modifyMessage: "",
       addComment: false,
       commentsCount: 0,
       commentContent: "",
+      posterId: "",
       author: localStorage.getItem("pseudo"),
       commenterId: localStorage.getItem("id"),
       userId: localStorage.getItem("id"),
@@ -258,8 +255,11 @@ export default {
           this.modifyMessage = posts.data.data.post;
           this.postImgUrl = posts.data.data.imgUrl;
           this.commentsCount = posts.data.data.commentsCount;
-          if (this.userId == this.post.posterId) {
-            this.isPosterAuthor = true;
+          this.posterId = posts.data.data.posterId;
+          console.log(this.userId);
+          console.log(this.posterId);
+          if (this.userId !== this.posterId) {
+            this.isPosterAuthor = false;
           }
         });
       this.axios
