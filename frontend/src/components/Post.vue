@@ -5,12 +5,6 @@
       <br />
       <span v-if="createdAt !== updatedAt">Modifié le {{ updatedAt }}</span>
       <br />
-      <span v-if="commentsCount > 1"
-        ><strong>{{ commentsCount }} commentaires</strong></span
-      >
-      <span v-if="commentsCount <= 1"
-        ><strong>{{ commentsCount }} commentaire</strong></span
-      >
     </div>
     <div class="card-body">
       <div v-if="downDisplay">
@@ -34,7 +28,7 @@
       <div v-if="upDisplay">
         <router-link :to="{ name: 'OnePost', params: { id: id } }">
           <h4 class="card-title">{{ title }}</h4>
-          <img :src="imgUrl" style="width: 300px" />
+          <img :src="imgUrl" class="post-image" />
           <p class="card-text">
             {{ post }}
           </p>
@@ -50,6 +44,14 @@
         </div>
       </div>
     </div>
+    <button
+      @click="addComment = true"
+      type="button"
+      class="btn btn-primary"
+      v-if="getUserPosts"
+    >
+      Ajouter un commentaire
+    </button>
   </div>
 </template>
 
@@ -73,10 +75,6 @@ export default {
       required: true,
     },
     imgUrl: {
-      type: String,
-      required: true,
-    },
-    commentsCount: {
       type: String,
       required: true,
     },

@@ -12,11 +12,11 @@
             Modifié le {{ dateFormat(post.updatedAt) }}
           </span>
           <br />
-          <span v-if="post.commentsCount > 1"
-            ><strong>{{ post.commentsCount }} commentaires</strong></span
+          <span v-if="comments.length > 1"
+            ><strong>{{ comments.length }} commentaires</strong></span
           >
-          <span v-if="post.commentsCount <= 1"
-            ><strong>{{ post.commentsCount }} commentaire</strong></span
+          <span v-if="comments.length <= 1"
+            ><strong>{{ comments.length }} commentaire</strong></span
           >
         </div>
 
@@ -48,7 +48,10 @@
               class="arrow-hover"
             />
           </div>
-          <div id="post-buttons" v-if="isPosterAuthor">
+          <div
+            id="post-buttons"
+            v-if="post.posterId == userId || isAdmin == 'true'"
+          >
             <button
               @click="(modify = true), (postView = false)"
               type="button"
@@ -61,7 +64,7 @@
             </button>
           </div>
           <button
-            @click="addComment = true"
+            @click="(addComment = true), (postView = false)"
             type="button"
             class="btn btn-primary"
           >
@@ -71,26 +74,6 @@
         </div>
       </div>
 
-      <div v-if="addComment" id="add-comment">
-        <form @submit.prevent="postComment()">
-          <div class="form-group">
-            <div v-if="error" class="alert alert-danger">{{ error }}</div>
-            <label class="form-label mt-4">Entrer votre commentaire :</label>
-            <textarea
-              class="form-control"
-              rows="3"
-              style="max-width: 35rem"
-              v-model="commentContent"
-              placeholder="Entrer ici votre commentaire"
-              @click="error = false"
-              required
-            ></textarea>
-            <button type="submit" class="btn btn-primary">
-              Ajouter le commentaire
-            </button>
-          </div>
-        </form>
-      </div>
       <div
         v-for="(comment, index) in comments"
         :key="index"
@@ -190,6 +173,27 @@
         </div>
       </form>
     </div>
+
+    <div v-if="addComment" id="add-comment">
+      <form @submit.prevent="postComment()">
+        <div class="form-group">
+          <div v-if="error" class="alert alert-danger">{{ error }}</div>
+          <label class="form-label mt-4">Entrer votre commentaire :</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            style="max-width: 35rem"
+            v-model="commentContent"
+            placeholder="Entrer ici votre commentaire"
+            @click="error = false"
+            required
+          ></textarea>
+          <button type="submit" class="btn btn-primary">
+            Ajouter le commentaire
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -210,11 +214,9 @@ export default {
       upDisplay: true,
       error: false,
       postView: true,
-      isPosterAuthor: "",
       modify: false,
       modifyMessage: "",
       addComment: false,
-      commentsCount: 0,
       commentContent: "",
       posterId: "",
       author: localStorage.getItem("pseudo"),
@@ -254,14 +256,9 @@ export default {
           this.post = posts.data.data;
           this.modifyMessage = posts.data.data.post;
           this.postImgUrl = posts.data.data.imgUrl;
-          this.commentsCount = posts.data.data.commentsCount;
           this.posterId = posts.data.data.posterId;
-          console.log(this.userId);
-          console.log(this.posterId);
-          if (this.userId !== this.posterId) {
-            this.isPosterAuthor = false;
-          }
         });
+
       this.axios
         .get(`http://localhost:3000/api/comment/${this.postId}`, {
           headers: {
@@ -324,6 +321,7 @@ export default {
     },
 
     postComment() {
+      this.postView = true;
       this.error = false;
       this.commentsCount++;
       const count = this.commentsCount;

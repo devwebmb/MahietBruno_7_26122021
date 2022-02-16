@@ -17,7 +17,6 @@
           minute: 'numeric',
         })
       "
-      :commentsCount="post.commentsCount"
       :createdAt="
         new Date(post.createdAt).toLocaleDateString('fr-FR', {
           year: 'numeric',
@@ -29,54 +28,6 @@
       "
       :id="post.id"
     ></Post>
-    <!-- <div v-for="post in posts" :key="post.id">
-      <div class="card border-primary mb-3" style="max-width: 35rem">
-        <div class="card-header">
-          <span>Posté le {{ dateFormat(post.createdAt) }}</span>
-          <br />
-          <span v-if="post.createdAt !== post.updatedAt"
-            >Modifié le {{ dateFormat(post.updatedAt) }}</span
-          >
-        </div>
-        <div class="card-body">
-          <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
-            <h4 class="card-title">{{ post.title }}</h4>
-            <p class="card-text" id="card-all-posts" v-if="downDisplay">
-              {{ post.post }}
-            </p>
-            <p class="card-text" v-if="upDisplay">
-              {{ post.post }}
-            </p>
-          </router-link>
-          <div v-if="downDisplay" class="arrow">
-            <img
-              src="../assets/images/arrow-down-solid.svg"
-              alt="Image d'une flêche vers le bas"
-              title="Afficher la suite du texte."
-              @click="(downDisplay = false), (upDisplay = true)"
-              class="arrow-hover"
-            />
-          </div>
-
-          <div v-if="upDisplay" class="arrow">
-            <img
-              src="../assets/images/arrow-up-solid.svg"
-              alt="Image d'une flêche vers le bas"
-              title="Cacher le texte."
-              @click="(downDisplay = true), (upDisplay = false)"
-              class="arrow-hover"
-            />
-          </div>
-        </div>
-        <button
-          @click="deletePost(post.id)"
-          type="button"
-          class="btn btn-primary"
-        >
-          Supprimer
-        </button>
-      </div>
-    </div> -->
   </div>
 </template>
 

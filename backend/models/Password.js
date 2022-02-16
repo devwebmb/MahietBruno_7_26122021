@@ -20,7 +20,7 @@ passwordSchema
   .is()
   .not()
   .oneOf(["Passw0rd", "Password123"]) // termes interdits, faille de sécurité
-  .is()
-  .not([/^[^<>{}()=+]+$/g]);
-
+  .has()
+  .not()
+  .symbols();
 module.exports = passwordSchema;

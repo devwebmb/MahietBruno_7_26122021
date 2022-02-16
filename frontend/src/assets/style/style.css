@@ -204,6 +204,31 @@
   }
 }
 
+#add-comment {
+  max-width: 500px;
+  margin: auto;
+}
+#add-comment button {
+  margin-top: 3%;
+  border-radius: 25px;
+  transition: 0.5s;
+  margin-bottom: 2%;
+  color: #242a30;
+}
+#add-comment button:hover {
+  transform: scale(1.1);
+  color: white;
+}
+@media screen and (max-width: 650px) {
+  #add-comment {
+    width: 95%;
+    margin: auto;
+  }
+  #add-comment button:hover {
+    transform: none;
+  }
+}
+
 #modify-post textarea {
   margin: auto;
   padding-right: 40px;

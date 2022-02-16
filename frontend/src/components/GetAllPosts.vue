@@ -21,7 +21,6 @@
           minute: 'numeric',
         })
       "
-      :commentsCount="post.commentsCount"
       :createdAt="
         new Date(post.createdAt).toLocaleDateString('fr-FR', {
           year: 'numeric',
@@ -32,7 +31,8 @@
         })
       "
       :id="post.id"
-    ></Post>
+    >
+    </Post>
   </div>
 </template>
 
