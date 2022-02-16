@@ -26,9 +26,12 @@ app.use((req, res, next) => {
   next();
 });
 
+//récupération des requêtes dans req.body
 app.use(bodyParser.json());
+//traitement des fichiers
 app.use("/images", express.static(path.join(__dirname, "images")));
 
+// connexion avec la bdd
 sequelize.initDb();
 
 app.use("/api/user", userRoutes);

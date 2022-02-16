@@ -1,11 +1,12 @@
 const { Post } = require("../database/sequelize");
 const { ValidationError } = require("sequelize");
 const fs = require("fs");
+const res = require("express/lib/response");
 
 // récupérer tous les posts
 exports.getAllPosts = (req, res, next) => {
   Post.findAll({
-    order: [["updatedAt", "DESC"]],
+    order: [["updatedAt", "DESC"]], // ordre décroissant pour un affichage du plus récent au plus ancien
   })
     .then((posts) => {
       const message = "Voici tous les posts.";
@@ -46,6 +47,7 @@ exports.addPost = (req, res, next) => {
   if (req.file) {
     const file = `${req.file.filename}`;
     Post.create({
+      // création d'un post avec un fichier image
       title: title,
       author: author,
       post: message,
@@ -66,6 +68,7 @@ exports.addPost = (req, res, next) => {
       });
   } else {
     Post.create({
+      // création d'un post sans fichier image
       title: title,
       author: author,
       post: message,
@@ -87,10 +90,11 @@ exports.addPost = (req, res, next) => {
 };
 
 //Modifier un post
+
 exports.updatePost = (req, res, next) => {
   const id = parseInt(req.params.id);
   const post = req.body.post;
-  const count = req.body.commentsCount;
+  const imgUrl = req.body.imgUrl;
   Post.findByPk(id)
     .then((post) => {
       if (post === null) {
@@ -99,6 +103,7 @@ exports.updatePost = (req, res, next) => {
         return res.status(404).json({ message });
       }
       if (post.imgUrl) {
+        // suppression de l'ancienne image si l'on change l'image
         const filename = post.imgUrl.split("/images")[1];
         fs.unlink(`images/${filename}`, () => {});
       }
@@ -109,10 +114,10 @@ exports.updatePost = (req, res, next) => {
       return res.status(500).json({ message, data: error });
     });
   if (req.file) {
+    // s'il y a un fichier image
     const file = `${req.file.filename}`;
     Post.update(
       {
-        commentsCount: count,
         post: post,
         imgUrl: `${req.protocol}://${req.get("host")}/images/${file}`,
       },
@@ -144,10 +149,10 @@ exports.updatePost = (req, res, next) => {
       });
   } else {
     Post.update(
+      // s'il n'y a pas de fichier image
       {
-        commentsCount: count,
         post: post,
-        imgUrl: "",
+        imgUrl: imgUrl,
       },
       {
         where: {
@@ -178,7 +183,7 @@ exports.deletePost = (req, res, next) => {
   Post.findByPk(id)
     .then((post) => {
       if (post.imgUrl) {
-        const filename = post.imgUrl.split("/images")[1];
+        const filename = post.imgUrl.split("/images")[1]; // suppression de l'image
         fs.unlink(`images/${filename}`, () => {
           post
             .destroy()
@@ -213,7 +218,7 @@ exports.deletePost = (req, res, next) => {
     });
 };
 
-//Supprimer tous les posts d'un utilisateur
+//Supprimer tous les posts d'un utilisateur ( lors de la suppression d'un utilisateur)
 exports.deleteUserPosts = (req, res, next) => {
   const id = parseInt(req.params.id);
   Post.destroy({ where: { posterId: id } })

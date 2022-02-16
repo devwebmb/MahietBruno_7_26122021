@@ -13,7 +13,7 @@
             id="email"
             type="email"
             class="form-control"
-            placeholder="Entrer votre adresse mail"
+            placeholder="Email"
             v-model="email"
             @click="error = false"
             required
@@ -29,7 +29,7 @@
             name="password"
             type="password"
             class="form-control"
-            placeholder="Choisissez un mot de passe"
+            placeholder="Mot de passe"
             v-model="password"
             @click="error = false"
             required
@@ -71,7 +71,7 @@ export default {
         )
         .then((user) => {
           console.log(user);
-          localStorage.setItem("user", JSON.stringify(user.data.data));
+          localStorage.setItem("user", JSON.stringify(user.data.data)); // envoie de données dans le localstorage
           localStorage.setItem("pseudo", user.data.data.pseudo);
           localStorage.setItem("email", user.data.data.email);
           localStorage.setItem("id", user.data.data.id);

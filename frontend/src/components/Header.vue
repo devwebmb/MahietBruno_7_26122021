@@ -31,7 +31,7 @@ export default {
   name: "Header",
   methods: {
     deconnect() {
-      localStorage.removeItem("user");
+      localStorage.removeItem("user"); // suppression du localstrorage
       localStorage.removeItem("token");
       localStorage.removeItem("pseudo");
       localStorage.removeItem("email");

@@ -13,7 +13,7 @@
             name="email"
             type="email"
             class="form-control"
-            placeholder="Entrer votre adresse mail"
+            placeholder="Email"
             v-model="email"
             @click="error = false"
             required
@@ -28,7 +28,7 @@
             name="pseudo"
             type="text"
             class="form-control"
-            placeholder="Entrer votre pseudo"
+            placeholder="Pseudo"
             v-model="pseudo"
             @click="error = false"
             required
@@ -43,7 +43,7 @@
             id="password"
             type="password"
             class="form-control"
-            placeholder="Choisissez un mot de passe"
+            placeholder="Mot de passe"
             v-model="password"
             @click="error = false"
             required
@@ -69,10 +69,12 @@ export default {
     };
   },
   methods: {
+    // fonction d'inscription
     signup() {
       this.error = false;
       this.axios
         .post(
+          // inscription
           "http://localhost:3000/api/user/signup",
           {
             email: this.email,
@@ -88,7 +90,7 @@ export default {
         .then(() => {
           this.axios
             .post(
-              "http://localhost:3000/api/user/login",
+              "http://localhost:3000/api/user/login", // connexion
               {
                 email: this.email,
                 password: this.password,

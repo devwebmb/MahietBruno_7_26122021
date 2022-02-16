@@ -48,12 +48,7 @@ export default {
       posts: [],
     };
   },
-  methods: {
-    changeView() {
-      this.downDisplay = !this.downDisplay;
-      this.upDisplay = !this.upDisplay;
-    },
-  },
+  methods: {},
   created() {
     this.axios
       .get("http://localhost:3000/api/post", {

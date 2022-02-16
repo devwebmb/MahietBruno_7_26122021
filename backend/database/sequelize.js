@@ -5,13 +5,14 @@ const PostModel = require("../models/Post");
 const CommentModel = require("../models/Comment");
 require("dotenv").config();
 
+// création d'une instance sequelize (paramètres de connexions)
 const dataBase = new Sequelize(
-  `${process.env.DB_NAME}`,
-  `${process.env.DB_USER}`,
-  `${process.env.DB_PASSWORD}`,
+  `${process.env.DB_NAME}`, // nom de la bdd
+  `${process.env.DB_USER}`, // nom utilisateur
+  `${process.env.DB_PASSWORD}`, // mdp utilisateur
   {
-    host: `${process.env.DB_HOST}`,
-    dialect: "mariadb",
+    host: `${process.env.DB_HOST}`, // où se trouve la bdd
+    dialect: "mariadb", // dialecte pour sequelize pour interragir avec la bdd
     dialectOptions: {
       timezone: "Etc/GMT-2",
     },
@@ -19,6 +20,7 @@ const dataBase = new Sequelize(
   }
 );
 
+// test de la connexion
 dataBase
   .authenticate()
   .then(() => console.log("Connexion à la base de données réussie"))
@@ -30,6 +32,7 @@ const Post = PostModel(dataBase, DataTypes);
 const User = UserModel(dataBase, DataTypes);
 const Comment = CommentModel(dataBase, DataTypes);
 
+// initialiser la bdd avec la création d'un administrateur
 const initDb = () => {
   return dataBase.sync({ force: true }).then(() => {
     bcrypt.hash(`${process.env.ADMIN_PASSWORD}`, 10).then((hash) => {

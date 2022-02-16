@@ -141,6 +141,7 @@ $white: white;
     transition: 0.5s;
     margin-bottom: 2%;
     color: #242a30;
+    margin-top: 2%;
 
     &:hover {
       transform: scale(1.1);
@@ -202,6 +203,7 @@ $white: white;
     margin: auto;
   }
 }
+
 //addNewPost
 
 #add-post {
@@ -295,12 +297,14 @@ $white: white;
     }
   }
   @media screen and (max-width: 650px) {
-    width: 350px;
+    max-width: 350px;
+    width: 90%;
     margin: auto;
 
     #modify-content {
       img {
-        transform: translate(165px, 50%);
+        transform: translateY(50%);
+        right: 12px;
       }
     }
   }
@@ -342,6 +346,10 @@ $white: white;
     }
     button {
       margin: 2% auto;
+    }
+    img {
+      width: 90%;
+      margin: auto;
     }
   }
 }

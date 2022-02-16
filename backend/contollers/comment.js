@@ -39,7 +39,7 @@ exports.getPostComments = (req, res, next) => {
     where: {
       postId: id,
     },
-    order: [["createdAt", "DESC"]],
+    order: [["createdAt", "DESC"]], // affichage par comment le plus récent en premier
   })
     .then((comments) => {
       return res.status(200).json({ comments });
@@ -75,7 +75,7 @@ exports.deleteComment = (req, res, next) => {
     });
 };
 
-// Supprimer tous les commentaires d'un post
+// Supprimer tous les commentaires d'un post (axe amélioration)
 exports.deletePostComments = (req, res, next) => {
   const id = parseInt(req.params.id);
   Comment.destroy({ where: { postId: id } })
@@ -90,7 +90,7 @@ exports.deletePostComments = (req, res, next) => {
     });
 };
 
-// Supprimer tous les commentaires d'un utilisateur
+// Supprimer tous les commentaires d'un utilisateur (axe amélioration)
 exports.deleteUserComments = (req, res, next) => {
   const id = parseInt(req.params.id);
   Comment.destroy({ where: { commenterId: id } })

@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+// middleware d'authentification venant récupérer le jeton de l'utilisateur s'il en a un et le vérifier avec la clé d'encodage
+// Ce middleware est présent sur les routes de requêtes posts et comments
 module.exports = (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
 

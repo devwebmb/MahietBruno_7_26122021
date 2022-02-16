@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "Veuillez entrer un commentaire." },
         is: {
           args: /^[^<>{}=+&$#\_\-\[\]§\/]+$/g,
-          msg: "Vos champs commentaire ne doit pas contenir certains caractères spéciaux (<>{}[]=+$&#_) et ne doit pas être vide.",
+          msg: "Vos champs commentaire ne doit pas contenir certains caractères spéciaux (<>{}[]=+$&#_) et ne doit pas être vide.", // contraintes de sécurité
         },
       },
     },

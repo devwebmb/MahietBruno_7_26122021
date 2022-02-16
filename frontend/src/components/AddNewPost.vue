@@ -7,7 +7,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Entrer votre titre"
+          placeholder="Titre"
           v-model="title"
           @click="error = false"
           required
@@ -18,7 +18,7 @@
           rows="3"
           style="max-width: 35rem"
           v-model="message"
-          placeholder="Entrer ici votre message"
+          placeholder="Message"
           @click="error = false"
           required
         ></textarea>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Affichage du message-->
     <div id="get-one-post" class="card-view" v-if="postView">
       <div class="card border-primary mb-3" style="max-width: 35rem">
         <div class="card-header">
@@ -38,7 +39,6 @@
               class="arrow-hover"
             />
           </div>
-
           <div v-if="upDisplay" class="arrow">
             <img
               src="../assets/images/arrow-up-solid.svg"
@@ -48,6 +48,7 @@
               class="arrow-hover"
             />
           </div>
+          <!-- Affichage des boutons selon les droits de l'utilisateur-->
           <div
             id="post-buttons"
             v-if="post.posterId == userId || isAdmin == 'true'"
@@ -74,6 +75,7 @@
         </div>
       </div>
 
+      <!-- Affichage des commentaires-->
       <div
         v-for="(comment, index) in comments"
         :key="index"
@@ -101,23 +103,20 @@
       </div>
     </div>
 
+    <!-- Affichage de la page de vue de modification-->
     <div id="modify-post" v-if="modify">
       <form @submit.prevent="modifyPost()">
         <div class="form-group">
           <div v-if="error" class="alert alert-danger">{{ error }}</div>
-          <div class="modify-image" v-if="imageDisplay">
-            <img
-              :src="post.imgUrl"
-              style="width: 150px"
-              v-if="post.imgUrl !== ''"
-            />
+          <div class="modify-image">
+            <img :src="post.imgUrl" style="width: 150px" v-if="postImgUrl" />
             <img
               src="../assets/images/trash.svg"
               alt="Logo d'une poubelle"
               class="trash-logo"
               title="Supprimer l'image"
-              @click="(file = ''), (imageDisplay = false), (error = false)"
-              v-if="post.imgUrl !== ''"
+              @click="(postImgUrl = ''), (file = ''), (error = false)"
+              v-if="postImgUrl"
             />
           </div>
           <br />
@@ -173,7 +172,15 @@
         </div>
       </form>
     </div>
+    <!-- axe d'amélioration -->
+    <!-- <ModifyPost
+      v-if="modify"
+      :key="post"
+      :imgUrl="post.imgUrl"
+      :modifyMessage="modifyMessage"
+    ></ModifyPost> -->
 
+    <!-- Affichage de la vue d'jout de commentaires -->
     <div v-if="addComment" id="add-comment">
       <form @submit.prevent="postComment()">
         <div class="form-group">
@@ -184,7 +191,7 @@
             rows="3"
             style="max-width: 35rem"
             v-model="commentContent"
-            placeholder="Entrer ici votre commentaire"
+            placeholder="Commentaire"
             @click="error = false"
             required
           ></textarea>
@@ -198,32 +205,37 @@
 </template>
 
 <script>
+// import ModifyPost from "./ModifyPost.vue"; // axe d'amélioration
 export default {
   name: "GetOnePost",
-
+  // components: { ModifyPost }, // axe d'amélioration
   data() {
     return {
-      post: [],
-      postImgUrl: "",
-      comments: [],
-      file: "",
-      url: null,
-      imageDisplay: true,
-      previewDisplay: false,
-      downDisplay: false,
-      upDisplay: true,
       error: false,
-      postView: true,
-      modify: false,
-      modifyMessage: "",
-      addComment: false,
-      commentContent: "",
-      posterId: "",
       author: localStorage.getItem("pseudo"),
       commenterId: localStorage.getItem("id"),
       userId: localStorage.getItem("id"),
       isAdmin: localStorage.getItem("isAdmin"),
       postId: this.$route.params.id,
+
+      // data de vue du post
+      post: [],
+      downDisplay: false,
+      upDisplay: true,
+      postView: true,
+      posterId: "",
+      comments: [],
+
+      // data de modifypost
+      postImgUrl: "",
+      file: "",
+      url: null,
+      previewDisplay: false,
+      modify: false,
+      modifyMessage: "",
+      // data de commentaires
+      addComment: false,
+      commentContent: "",
     };
   },
 
@@ -245,6 +257,8 @@ export default {
       return event.toLocaleDateString("fr-FR", options);
     },
     getOnePost() {
+      this.modify = false;
+      this.postView = true;
       this.axios
         .get(`http://localhost:3000/api/post/${this.postId}`, {
           headers: {
@@ -257,6 +271,7 @@ export default {
           this.modifyMessage = posts.data.data.post;
           this.postImgUrl = posts.data.data.imgUrl;
           this.posterId = posts.data.data.posterId;
+          this.file = posts.data.data.imgUrl;
         });
 
       this.axios
@@ -292,6 +307,7 @@ export default {
           this.$router.replace("/post");
         });
     },
+
     modifyPost() {
       this.error = false;
       let formData = new FormData();
@@ -310,7 +326,7 @@ export default {
           this.modify = false;
           this.postView = true;
           this.previewDisplay = false;
-          this.imageDisplay = true;
+          this.file = "";
           this.getOnePost();
         })
         .catch((e) => {
@@ -321,8 +337,6 @@ export default {
     },
 
     postComment() {
-      this.postView = true;
-      this.error = false;
       this.commentsCount++;
       const count = this.commentsCount;
       this.axios

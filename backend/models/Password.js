@@ -7,7 +7,7 @@ passwordSchema
   .is()
   .min(8) // 8 caractères min
   .is()
-  .max(30) // 100 caractères max
+  .max(30) // 30 caractères max
   .has()
   .uppercase() // une majuscule
   .has()
@@ -22,5 +22,5 @@ passwordSchema
   .oneOf(["Passw0rd", "Password123"]) // termes interdits, faille de sécurité
   .has()
   .not()
-  .symbols();
+  .symbols(); // pas de symbole pour la sécurité
 module.exports = passwordSchema;

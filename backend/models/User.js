@@ -1,17 +1,18 @@
+// création du modèle d'utilisateur
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define("User", {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Cet adresse mail est déjà utilisée.",
+        msg: "Cet adresse mail est déjà utilisée.", // Gère l'unicité de l'adresse mail dans la bdd
       },
       validate: {
-        isEmail: { msg: "Veuillez entrer une adresse mail au bon format." },
+        isEmail: { msg: "Veuillez entrer une adresse mail au bon format." }, // validation du schéma de l'entrée
         notNull: { msg: "Veuillez entrer une adresse mail." },
         is: {
           args: /^[^<>{}()=+,:&$#"'\(\)\_\-\[\]!?§\/]+$/g,
-          msg: "Votre champs adresse email ne doit pas contenir de caractères spéciaux .",
+          msg: "Votre champs adresse email ne doit pas contenir de caractères spéciaux .", // Sécurité des champs de formulaire
         },
       },
     },
@@ -19,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: {
-        msg: "Ce pseudo est déjà utilisé.",
+        msg: "Ce pseudo est déjà utilisé.", // Gère l'unicité du pseudo dans la bdd
       },
       validate: {
         len: {
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         is: {
           args: /^[^<>{}()=+,.:&$#"'\(\)\_\-\[\]!?§\/]+$/g,
-          msg: "Votre champs pseudo ne doit pas contenir de caractères spéciaux .",
+          msg: "Votre champs pseudo ne doit pas contenir de caractères spéciaux .", // contraintes sur le pseudo
         },
       },
     },
@@ -44,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     isAdmin: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      defaultValue: false, // true permet d'avoir des droits d'administrateur (suppression de tous les posts ou commentaires)
     },
   });
 };

@@ -1,21 +1,18 @@
+// axe d'amélioration
 <template>
-  <div id="modify-post" v-if="modify">
+  <div id="modify-post">
     <form @submit.prevent="modifyPost()">
       <div class="form-group">
         <div v-if="error" class="alert alert-danger">{{ error }}</div>
         <div class="modify-image" v-if="imageDisplay">
-          <img
-            :src="post.imgUrl"
-            style="width: 150px"
-            v-if="post.imgUrl !== ''"
-          />
+          <img :src="imgUrl" style="width: 150px" v-if="imgUrl !== ''" />
           <img
             src="../assets/images/trash.svg"
             alt="Logo d'une poubelle"
             class="trash-logo"
             title="Supprimer l'image"
             @click="(file = ''), (imageDisplay = false), (error = false)"
-            v-if="post.imgUrl !== ''"
+            v-if="imgUrl !== ''"
           />
         </div>
         <br />
@@ -55,14 +52,14 @@
             class="form-control"
             rows="3"
             style="max-width: 35rem"
-            v-model="modifyMessage"
+            v-model="messagetoPost"
             @click="error = false"
           ></textarea>
           <img
             src="../assets/images/eraser-solid.svg"
             alt="Logo d'une gomme"
-            @click="modifyMessage = ''"
             title="Effacer le texte"
+            @click="messagetoPost = ''"
           />
         </div>
         <button type="submit" class="btn btn-primary">Modifier le post</button>
@@ -72,7 +69,63 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    imgUrl: {
+      type: String,
+      required: true,
+    },
+    modifyMessage: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      file: "",
+      url: null,
+      imageDisplay: true,
+      previewDisplay: false,
+      error: false,
+      postId: this.$route.params.id,
+      messagetoPost: "",
+    };
+  },
+  methods: {
+    handleFileUpload(event) {
+      this.previewDisplay = true;
+      this.file = event.target.files[0];
+      this.url = URL.createObjectURL(this.file);
+    },
+    modifyPost() {
+      let formData = new FormData();
+      formData.append("imgUrl", this.file);
+      formData.append("post", this.messagetoPost);
+      this.axios
+        .put(`http://localhost:3000/api/post/${this.postId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          alert("Votre message a bien été modifié");
+          this.messagetoPost = "";
+          this.previewDisplay = false;
+          this.imageDisplay = true;
+          this.$router.replace("/post/");
+        })
+        .catch((e) => {
+          this.error = e.response.data.message
+            .replace("Validation error:", "")
+            .split(",")[0];
+        });
+    },
+  },
+  mounted() {
+    this.messagetoPost = this.modifyMessage;
+  },
+};
 </script>
 
 <style></style>

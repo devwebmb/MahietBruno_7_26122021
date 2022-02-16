@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import auth from "../auth/auth";
 import VueRouteMiddleware from "vue-route-middleware";
 
+// création de plusieurs chemin de routes menant vers les views
 const routes = [
   {
     path: "/",
@@ -14,7 +15,7 @@ const routes = [
     name: "Post",
     component: () => import("../views/Post.vue"),
     meta: {
-      middleware: auth,
+      middleware: auth, // middleware (vue-route-middleware)
     },
   },
   {
@@ -48,6 +49,7 @@ const router = createRouter({
   routes,
 });
 
+// middleware avent chaque route
 router.beforeEach(VueRouteMiddleware());
 
 export default router;

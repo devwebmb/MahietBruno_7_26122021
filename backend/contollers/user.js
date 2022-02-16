@@ -9,6 +9,7 @@ require("dotenv").config();
 // inscription
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
+    // hash du mdp
     User.create({
       email: req.body.email,
       pseudo: req.body.pseudo,
@@ -20,10 +21,10 @@ exports.signup = (req, res, next) => {
       })
       .catch((error) => {
         if (error instanceof ValidationError) {
-          return res.status(400).json({ message: error.message, data: error });
+          return res.status(400).json({ message: error.message, data: error }); // remontée des erreurs avec sequelize
         }
         if (error instanceof UniqueConstraintError) {
-          return res.status(400).json({ message: error.message, data: error });
+          return res.status(400).json({ message: error.message, data: error }); // erreur d'unicité pour l'adresse email
         }
         const message =
           "L'utilisateur n'a pas pu être créé, veuillez rééssayer dans un instant.";
@@ -45,11 +46,13 @@ exports.login = (req, res, next) => {
         return res.status(404).json({ message });
       }
       bcrypt.compare(req.body.password, user.password).then((valid) => {
+        // comparaison des mdp
         if (!valid) {
           const message = "Le mot de passe est incorrect";
           return res.status(401).json({ message });
         }
         const token = jwt.sign(
+          // création d'un token d'authentification
           { userId: user.id },
           `${process.env.PRIVATE_KEY}`,
           {
@@ -68,7 +71,7 @@ exports.login = (req, res, next) => {
 };
 
 // CRUD USER
-//Récupérer tous les users
+//Récupérer tous les users (axe d'amélioration)
 exports.getAllUsers = (req, res, next) => {
   User.findAll({ attributes: { exclude: ["password"] } })
     .then((users) => {
@@ -81,7 +84,7 @@ exports.getAllUsers = (req, res, next) => {
     });
 };
 
-//Récupérer un seul utilisateur
+//Récupérer un seul utilisateur (axe d'amélioration)
 exports.getOneUser = (req, res, next) => {
   User.findOne({
     where: {
@@ -104,7 +107,7 @@ exports.getOneUser = (req, res, next) => {
     });
 };
 
-// update user
+// update user (axe d'amélioration)
 exports.updateUser = (req, res, next) => {
   User.findOne({
     where: {
@@ -151,7 +154,7 @@ exports.updateUser = (req, res, next) => {
     });
 };
 
-//Delete user
+//Delete user, suppression d'un utilisateur et de tous ces posts
 
 exports.deleteUser = (req, res, next) => {
   User.findOne({

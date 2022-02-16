@@ -32,12 +32,14 @@ export default {
     deleteUser() {
       this.axios
         .delete(`http://localhost:3000/api/user/${this.userId}`, {
+          // récupération de tous les posts d'un utilisateur
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ` + localStorage.getItem("token"),
           },
         })
         .then(() => {
+          // suppression du localstorage
           localStorage.removeItem("user");
           localStorage.removeItem("token");
           localStorage.removeItem("pseudo");

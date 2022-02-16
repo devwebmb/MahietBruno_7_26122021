@@ -1,9 +1,9 @@
 <template>
-  <div class="card border-primary mb-3" style="max-width: 35rem">
+  <div class="card border-primary mb-3" style="max-width: 35rem" id="post-view">
     <div class="card-header">
       <span>Posté le {{ createdAt }} par {{ author }}</span>
       <br />
-      <span v-if="createdAt !== updatedAt">Modifié le {{ updatedAt }}</span>
+      <span> Modifié le {{ updatedAt }} </span>
       <br />
     </div>
     <div class="card-body">
@@ -58,6 +58,7 @@
 <script>
 export default {
   props: {
+    // interractions avec le composant parent
     author: {
       type: String,
       required: true,

@@ -131,6 +131,7 @@
   transition: 0.5s;
   margin-bottom: 2%;
   color: #242a30;
+  margin-top: 2%;
 }
 .card-view button:hover {
   transform: scale(1.1);
@@ -274,11 +275,13 @@
 }
 @media screen and (max-width: 650px) {
   #modify-post {
-    width: 350px;
+    max-width: 350px;
+    width: 90%;
     margin: auto;
   }
   #modify-post #modify-content img {
-    transform: translate(165px, 50%);
+    transform: translateY(50%);
+    right: 12px;
   }
 }
 
@@ -308,6 +311,10 @@
 }
 #user-posts .card button {
   margin: 2% auto;
+}
+#user-posts .card img {
+  width: 90%;
+  margin: auto;
 }
 
 /*!
