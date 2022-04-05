@@ -2,6 +2,8 @@ MahietBruno_7_26122021
 
 Bonjour et bienvenue dans mon projet 7 de la formation de développeur web d'Openclassrooms.
 
+Ceci est le dernier projet de ma formation. J'ai créé une API REST et tout le front avec VueJS.
+
 Nodejs doit être installé sur votre ordinateur.
 
 // LANCER LE PROJET
